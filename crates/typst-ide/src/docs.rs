@@ -45,7 +45,6 @@ pub fn find_param_docs(world: &dyn IdeWorld, param: &ParamInfo) -> Option<Docs> 
             }
             None
         }
-        ParamInfo::Plugin => None,
     }
 }
 

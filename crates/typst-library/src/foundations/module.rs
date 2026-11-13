@@ -15,7 +15,6 @@ use crate::foundations::{Content, Repr, Scope, Value, ty};
 /// - stem from a @reference:scripting:modules[file import]
 /// - stem from a @reference:scripting:packages[package import] (and thus
 ///   indirectly its entrypoint file)
-/// - result from a call to the @plugin[plugin] function
 ///
 /// You can access definitions from the module using
 /// @reference:scripting:fields[field access notation] and interact with it

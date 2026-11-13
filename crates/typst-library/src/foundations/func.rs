@@ -11,11 +11,11 @@ use either::Either;
 use typst_syntax::{Span, Spanned, SyntaxNode, ast};
 use typst_utils::{DefSite, LazyHash, Static, singleton};
 
-use crate::diag::{At, SourceResult, StrResult, WarningSink, bail};
+use crate::diag::{SourceResult, StrResult, WarningSink, bail};
 use crate::engine::Engine;
 use crate::foundations::{
-    Args, Bytes, CastInfo, Content, Context, Element, IntoArgs, PluginFunc, Repr, Scope,
-    Selector, Type, Value, cast, scope, ty,
+    Args, CastInfo, Content, Context, Element, IntoArgs, Repr, Scope, Selector, Type,
+    Value, cast, scope, ty,
 };
 
 /// A mapping from argument values to a return value.
@@ -153,8 +153,6 @@ enum FuncInner {
     Element(Element),
     /// A user-defined closure.
     Closure(Arc<LazyHash<Closure>>),
-    /// A plugin WebAssembly function.
-    Plugin(Arc<PluginFunc>),
     /// A nested function with pre-applied arguments.
     With(Arc<(Func, Args)>),
 }
@@ -168,7 +166,6 @@ impl Func {
             FuncInner::Native(native) => Some(native.name),
             FuncInner::Element(elem) => Some(elem.name()),
             FuncInner::Closure(closure) => closure.name(),
-            FuncInner::Plugin(func) => Some(func.name()),
             FuncInner::With(with) => with.0.name(),
         }
     }
@@ -181,7 +178,6 @@ impl Func {
             FuncInner::Native(native) => Some(native.title),
             FuncInner::Element(elem) => Some(elem.title()),
             FuncInner::Closure(_) => None,
-            FuncInner::Plugin(_) => None,
             FuncInner::With(with) => with.0.title(),
         }
     }
@@ -192,7 +188,6 @@ impl Func {
             FuncInner::Native(native) => Some(native.docs),
             FuncInner::Element(elem) => Some(elem.docs()),
             FuncInner::Closure(_) => None,
-            FuncInner::Plugin(_) => None,
             FuncInner::With(with) => with.0.docs(),
         }
     }
@@ -215,10 +210,7 @@ impl Func {
                 Either::Left(elem.params().iter().map(ParamInfo::Native))
             }
             FuncInner::Closure(closure) => {
-                Either::Right(Either::Left(closure.params().map(ParamInfo::Closure)))
-            }
-            FuncInner::Plugin(_) => {
-                Either::Right(Either::Right([ParamInfo::Plugin].into_iter()))
+                Either::Right(closure.params().map(ParamInfo::Closure))
             }
             // TODO: We could take into account the known arguments.
             FuncInner::With(with) => with.0.params(),
@@ -238,7 +230,6 @@ impl Func {
                 Some(singleton!(CastInfo, CastInfo::Type(Type::of::<Content>())))
             }
             FuncInner::Closure(_) => None,
-            FuncInner::Plugin(_) => None,
             FuncInner::With(with) => with.0.returns(),
         }
     }
@@ -249,7 +240,6 @@ impl Func {
             FuncInner::Native(native) => native.keywords,
             FuncInner::Element(elem) => elem.keywords(),
             FuncInner::Closure(_) => &[],
-            FuncInner::Plugin(_) => &[],
             FuncInner::With(with) => with.0.keywords(),
         }
     }
@@ -271,7 +261,6 @@ impl Func {
             FuncInner::Native(native) => Some(&native.0.scope),
             FuncInner::Element(elem) => Some(elem.scope()),
             FuncInner::Closure(_) => None,
-            FuncInner::Plugin(_) => None,
             FuncInner::With(with) => with.0.scope(),
         }
     }
@@ -297,14 +286,6 @@ impl Func {
     pub fn to_element(&self) -> Option<Element> {
         match self.inner {
             FuncInner::Element(func) => Some(func),
-            _ => None,
-        }
-    }
-
-    /// Extract the plugin function, if it is one.
-    pub fn to_plugin(&self) -> Option<&PluginFunc> {
-        match &self.inner {
-            FuncInner::Plugin(func) => Some(func),
             _ => None,
         }
     }
@@ -350,12 +331,6 @@ impl Func {
                 context,
                 args,
             ),
-            FuncInner::Plugin(func) => {
-                let inputs = args.all::<Bytes>()?;
-                let output = func.call(inputs).at(args.span)?;
-                args.finish()?;
-                Ok(Value::Bytes(output))
-            }
             FuncInner::With(with) => {
                 args.items = with.1.items.iter().cloned().chain(args.items).collect();
                 with.0.call(engine, context, args)
@@ -451,7 +426,6 @@ impl Repr for Func {
             FuncInner::Native(native) => native.name.into(),
             FuncInner::Element(elem) => elem.name().into(),
             FuncInner::Closure(closure) => closure.name().unwrap_or(DEFAULT).into(),
-            FuncInner::Plugin(func) => func.name().clone(),
             FuncInner::With(_) => DEFAULT.into(),
         }
     }
@@ -505,12 +479,6 @@ impl From<Closure> for Func {
     }
 }
 
-impl From<PluginFunc> for Func {
-    fn from(func: PluginFunc) -> Self {
-        FuncInner::Plugin(Arc::new(func)).into()
-    }
-}
-
 /// Details about a function parameter.
 #[derive(Debug, Clone)]
 pub enum ParamInfo {
@@ -518,8 +486,6 @@ pub enum ParamInfo {
     Native(&'static NativeParamInfo),
     /// Details about a user-defined function.
     Closure(Spanned<ClosureParamInfo>),
-    /// A plugin's sole variadic bytes parameter.
-    Plugin,
 }
 
 impl ParamInfo {
@@ -540,7 +506,6 @@ impl ParamInfo {
                 ClosureParamInfo::Sink { name } => name.as_deref(),
                 ClosureParamInfo::Named { name, .. } => Some(name),
             },
-            Self::Plugin => None,
         }
     }
 
@@ -552,7 +517,6 @@ impl ParamInfo {
                 ClosureParamInfo::Named { default, .. } => Some(default.clone()),
                 _ => None,
             },
-            Self::Plugin => None,
         }
     }
 
@@ -564,7 +528,6 @@ impl ParamInfo {
                 &info.v,
                 ClosureParamInfo::Pos { .. } | ClosureParamInfo::Sink { .. }
             ),
-            Self::Plugin => true,
         }
     }
 
@@ -573,7 +536,6 @@ impl ParamInfo {
         match self {
             Self::Native(info) => info.named,
             Self::Closure(info) => matches!(&info.v, ClosureParamInfo::Named { .. }),
-            Self::Plugin => false,
         }
     }
 
@@ -582,7 +544,6 @@ impl ParamInfo {
         match self {
             Self::Native(info) => info.variadic,
             Self::Closure(info) => matches!(&info.v, ClosureParamInfo::Sink { .. }),
-            Self::Plugin => true,
         }
     }
 
@@ -591,7 +552,6 @@ impl ParamInfo {
         match self {
             Self::Native(info) => info.required,
             Self::Closure(info) => matches!(&info.v, ClosureParamInfo::Pos { .. }),
-            Self::Plugin => false,
         }
     }
 
@@ -600,7 +560,6 @@ impl ParamInfo {
         match self {
             Self::Native(info) => info.settable,
             Self::Closure(_) => false,
-            Self::Plugin => false,
         }
     }
 }
