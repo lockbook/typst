@@ -1,3 +1,5 @@
+> **Lockbook's fork.** Typst v0.15.1 stripped to what [Lockbook](https://github.com/lockbook/lockbook) needs to typeset math: no plugins, PDF images, bibliographies, syntax highlighting, data loading, hyphenation or images. Not meant for upstreaming. To update, rebase this branch onto a newer typst tag and check the removals still apply.
+
 <h1 align="center">
   <img alt="Typst" src="https://user-images.githubusercontent.com/17899797/226108480-722b770e-6313-40d7-84f2-26bebb55a281.png">
 </h1>
