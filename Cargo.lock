@@ -867,7 +867,7 @@ dependencies = [
  "hayro-syntax",
  "kurbo",
  "moxcms",
- "phf 0.13.1",
+ "phf",
  "rustc-hash",
  "siphasher",
  "skrifa",
@@ -1783,42 +1783,13 @@ checksum = "9b4f627cb1b25917193a259e49bdad08f671f8d9708acfd5fe0a8c1455d87220"
 
 [[package]]
 name = "phf"
-version = "0.11.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1fd6780a80ae0c52cc120a26a1a42c1ae51b247a253e4e06113d23d2c2edd078"
-dependencies = [
- "phf_shared 0.11.3",
-]
-
-[[package]]
-name = "phf"
 version = "0.13.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c1562dc717473dbaa4c1f85a36410e03c047b2e7df7f45ee938fbef64ae7fadf"
 dependencies = [
  "phf_macros",
- "phf_shared 0.13.1",
+ "phf_shared",
  "serde",
-]
-
-[[package]]
-name = "phf_codegen"
-version = "0.11.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "aef8048c789fa5e851558d709946d6d79a8ff88c0440c587967f8e94bfb1216a"
-dependencies = [
- "phf_generator 0.11.3",
- "phf_shared 0.11.3",
-]
-
-[[package]]
-name = "phf_generator"
-version = "0.11.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3c80231409c20246a13fddb31776fb942c38553c51e871f8cbd687a4cfb5843d"
-dependencies = [
- "phf_shared 0.11.3",
- "rand",
 ]
 
 [[package]]
@@ -1828,7 +1799,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "135ace3a761e564ec88c03a77317a7c6b80bb7f7135ef2544dbe054243b89737"
 dependencies = [
  "fastrand",
- "phf_shared 0.13.1",
+ "phf_shared",
 ]
 
 [[package]]
@@ -1837,20 +1808,11 @@ version = "0.13.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "812f032b54b1e759ccd5f8b6677695d5268c588701effba24601f6932f8269ef"
 dependencies = [
- "phf_generator 0.13.1",
- "phf_shared 0.13.1",
+ "phf_generator",
+ "phf_shared",
  "proc-macro2",
  "quote",
  "syn",
-]
-
-[[package]]
-name = "phf_shared"
-version = "0.11.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "67eabc2ef2a60eb7faa00097bd1ffdb5bd28e62bf39990626a582201b7a754e5"
-dependencies = [
- "siphasher",
 ]
 
 [[package]]
@@ -2011,8 +1973,6 @@ version = "0.8.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "5ca0ecfa931c29007047d1bc58e623ab12e5590e8c7cc53200d5202b69266d8a"
 dependencies = [
- "libc",
- "rand_chacha",
  "rand_core",
 ]
 
@@ -2031,9 +1991,6 @@ name = "rand_core"
 version = "0.6.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ec0be4795e2f6a28069bec0b5ff3e2ac9bafc99e6a9a7dc3547996c5c816922c"
-dependencies = [
- "getrandom 0.2.15",
-]
 
 [[package]]
 name = "rayon"
@@ -2841,44 +2798,6 @@ version = "0.15.1"
 source = "git+https://github.com/typst/typst-dev-assets?tag=v0.15.1#53c12796fc6c62e12af8788ab80ebed686d5eedb"
 
 [[package]]
-name = "typst-docs"
-version = "0.15.1"
-dependencies = [
- "az",
- "base64",
- "clap",
- "comemo",
- "ecow",
- "either",
- "heck",
- "open",
- "proc-macro2",
- "rayon",
- "rustc-hash",
- "serde",
- "serde_json",
- "syn",
- "typst",
- "typst-assets",
- "typst-bundle",
- "typst-dev-assets",
- "typst-eval",
- "typst-html",
- "typst-kit",
- "typst-layout",
- "typst-library",
- "typst-pdf",
- "typst-render",
- "typst-svg",
- "typst-timing",
- "typst-utils",
- "unicode-math-class",
- "unicode-segmentation",
- "unicode_names2",
- "unscanny",
-]
-
-[[package]]
 name = "typst-eval"
 version = "0.15.1"
 dependencies = [
@@ -3046,7 +2965,7 @@ dependencies = [
  "moxcms",
  "palette",
  "percent-encoding",
- "phf 0.13.1",
+ "phf",
  "png",
  "rayon",
  "regex",
@@ -3326,26 +3245,6 @@ name = "unicode-width"
 version = "0.1.14"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7dd6e30e90baa6f72411720665d41d89b9a3d039dc45b8faea1ddd07f617f6af"
-
-[[package]]
-name = "unicode_names2"
-version = "2.0.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d189085656ca1203291e965444e7f6a2723fbdd1dd9f34f8482e79bafd8338a0"
-dependencies = [
- "phf 0.11.3",
- "unicode_names2_generator",
-]
-
-[[package]]
-name = "unicode_names2_generator"
-version = "2.0.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1262662dc96937c71115228ce2e1d30f41db71a7a45d3459e98783ef94052214"
-dependencies = [
- "phf_codegen",
- "rand",
-]
 
 [[package]]
 name = "unsafe-libyaml"
