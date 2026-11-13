@@ -6,17 +6,15 @@ use rustc_hash::FxHashSet;
 use serde::{Deserialize, Serialize};
 use typst::foundations::{
     AsOutput, AutoValue, CastInfo, Func, Label, NativeElement, NoneValue, Output,
-    ParamInfo, Repr, StyleChain, Styles, Type, Value, fields_on, repr,
+    ParamInfo, Repr, StyleChain, Styles, Type, Value, fields_on,
 };
 use typst::layout::{Alignment, Dir};
 use typst::syntax::ast::AstNode;
 use typst::syntax::{
-    FileId, LinkedNode, Side, Source, SyntaxKind, SyntaxMode, ast, is_id_continue,
-    is_id_start, is_ident,
+    FileId, LinkedNode, Side, Source, SyntaxKind, SyntaxMode, ast, is_ident,
 };
-use typst::text::{FontFlags, RawElem};
+use typst::text::FontFlags;
 use typst::visualize::Color;
-use unscanny::Scanner;
 
 use crate::analyze::analyze_expr_with_fallback;
 use crate::docs::{find_param_docs, find_value_docs};
@@ -615,8 +613,6 @@ fn path_completion(func: &Func, param: &ParamInfo) -> Option<&'static [&'static 
         (Some("toml"), "source") => &["toml"],
         (Some("xml"), "source") => &["xml"],
         (Some("yaml"), "source") => &["yml", "yaml"],
-        (Some("raw"), "syntaxes") => &["sublime-syntax"],
-        (Some("raw"), "theme") => &["tmtheme"],
         (Some("attach"), "path") if *func == typst::pdf::AttachElem::ELEM => &[],
         (None, "path") => &[],
         _ => return None,
@@ -657,22 +653,6 @@ fn complete_markup(ctx: &mut CompletionContext) -> bool {
     {
         ctx.from = ctx.cursor;
         code_completions(ctx, false);
-        return true;
-    }
-
-    // Directly after a raw block.
-    let mut s = Scanner::new(ctx.text);
-    s.jump(ctx.leaf.offset());
-    if s.eat_if("```") {
-        s.eat_while('`');
-        let start = s.cursor();
-        if s.eat_if(is_id_start) {
-            s.eat_while(is_id_continue);
-        }
-        if s.cursor() == ctx.cursor {
-            ctx.from = start;
-            ctx.raw_completions();
-        }
         return true;
     }
 
@@ -1184,28 +1164,6 @@ impl<'a> CompletionContext<'a> {
                 .to_lowercase();
             extensions.contains(&ext.as_str())
         });
-    }
-
-    /// Add completions for raw block tags.
-    fn raw_completions(&mut self) {
-        for (name, mut tags) in RawElem::languages() {
-            let lower = name.to_lowercase();
-            if !tags.contains(&lower.as_str()) {
-                tags.push(lower.as_str());
-            }
-
-            tags.retain(|tag| is_ident(tag));
-            if tags.is_empty() {
-                continue;
-            }
-
-            self.completions.push(Completion {
-                kind: CompletionKind::Constant,
-                label: name.into(),
-                apply: Some(tags[0].into()),
-                detail: Some(repr::separated_list(&tags, " or ").into()),
-            });
-        }
     }
 
     /// Add completions for labels and references.

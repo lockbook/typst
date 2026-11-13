@@ -14,7 +14,6 @@ use crate::foundations::{
 use crate::introspection::{Introspector, Locator, SplitLocator};
 use crate::layout::{Frame, Region};
 use crate::model::DocumentInfo;
-use crate::visualize::Color;
 use crate::{Library, World};
 
 /// Defines the `Routines` struct.
@@ -105,12 +104,6 @@ routines! {
         content: &'a Content,
         styles: StyleChain<'a>,
     ) -> Option<Option<&'a Content>>
-
-    /// Wraps content in a span with a color.
-    ///
-    /// This is a temporary workaround until `TextElem::fill` is supported in
-    /// HTML export.
-    fn html_span_filled(content: Content, color: Color) -> Content
 }
 
 // The types below only live here to enable the routines to be defined here.

@@ -321,5 +321,4 @@ static ROUTINES: LazyLock<Routines> = LazyLock::new(|| Routines {
     layout_frame: typst_layout::layout_frame,
     html_module: typst_html::module,
     html_mathml_body: typst_html::html_mathml_body,
-    html_span_filled: typst_html::html_span_filled,
 });

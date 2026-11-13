@@ -121,7 +121,6 @@ siphasher = "1"
 smallvec = { version = "1.11.1", features = ["union", "const_generics", "const_new"] }
 stacker = "0.1.19"
 syn = { version = "2", features = ["full", "extra-traits"] }
-syntect = { version = "5.3", default-features = false, features = ["parsing", "regex-fancy", "plist-load", "yaml-load"] }
 tar = "0.4.46"
 tempfile = "3.7.0"
 thin-vec = "0.2.18"
@@ -130,7 +129,6 @@ tiny_http = "0.12"
 tiny-skia = "0.12"
 toml = { version = "0.8", default-features = false, features = ["parse", "display"] }
 ttf-parser = "0.25.0"
-two-face = { version = "0.4.3", default-features = false, features = ["syntect-fancy"] }
 typed-arena = "2"
 unicode_names2 = "2"
 unicode-bidi = "0.3.18"

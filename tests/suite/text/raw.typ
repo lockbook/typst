@@ -8,11 +8,6 @@ Empty raw block:``.
 // No extra space.
 `A``B`
 
---- raw-typst-lang paged ---
-// Typst syntax inside.
-```typ #let x = 1``` \
-```typ #f(1)```
-
 --- raw-block-no-parbreaks paged ---
 // Multiline block splits paragraphs.
 
@@ -266,80 +261,6 @@ Year	Month	Day
 2002	3	10
 ```
 
---- raw-syntaxes paged ---
-#set page(width: 180pt)
-#set text(6pt)
-#set raw(syntaxes: "/assets/syntaxes/SExpressions.sublime-syntax")
-
-```sexp
-(defun factorial (x)
-  (if (zerop x)
-    ; with a comment
-    1
-    (* x (factorial (- x 1)))))
-```
-
---- raw-syntaxes-invalid-sublime-syntax eval ---
-// Prevent test parser from failing on "^---" line.
-#let sublime-syntax = ```yaml
-%YAML 1.2
-```.text + "\n---\n" + ```yaml
-name: lang
-file_extensions:
-  - a
-scope: source
-contexts:
-  main:
-    - match: '\'
-```.text
-
-// Error: 35-56 failed to parse syntax (Error while compiling regex '\': Parsing error at position 0: Backslash without following character)
-#raw("text", lang: "a", syntaxes: bytes(sublime-syntax))
-
---- raw-syntaxes-types paged empty ---
-#let sublime-syntax = ```yaml
-%YAML 1.2
-```.text + "\n---\n" + ```yaml
-name: lang
-file_extensions:
-  - a
-scope: source
-contexts:
-  main:
-    - match: ''
-```.text
-
-#set raw(syntaxes: "/assets/syntaxes/SExpressions.sublime-syntax")
-#set raw(syntaxes: path("/assets/syntaxes/SExpressions.sublime-syntax"))
-#set raw(syntaxes: (
-  path("/assets/syntaxes/SExpressions.sublime-syntax"),
-  bytes(sublime-syntax),
-))
-
---- raw-theme paged ---
-// Test code highlighting with custom theme.
-#set page(width: 180pt)
-#set text(6pt)
-#set raw(theme: "/assets/themes/halcyon.tmTheme")
-#show raw: it => {
-  set text(fill: rgb("a2aabc"))
-  rect(
-    width: 100%,
-    inset: (x: 4pt, y: 5pt),
-    radius: 4pt,
-    fill: rgb("1d2433"),
-    place(right, text(luma(240), it.lang)) + it,
-  )
-}
-
-```typ
-= Chapter 1
-#lorem(100)
-
-#let hi = "Hello World"
-#show heading: emph
-```
-
 --- raw-show-set paged ---
 // Text show rule
 #show raw: set text(font: "Roboto")
@@ -389,165 +310,6 @@ Inline raws, multiline e.g. `
 for i in range(10):
   print(i)
 ` or otherwise e.g. `print(j)`, are colored properly.
-
---- raw-highlight-typ paged ---
-// Highlighting for Typst markup
-#set page(width: auto)
-```typ
-#set heading(numbering: "1.")
-= Chapter 1 <chap:1>
-#lorem(100)
-
-#let hi = "Hello World"
-#show heading: emph
-/ Chap: @chap:1[Chapter #hi]
-- *Chap:* ch--ap
-+ _*Chap:*_ ch~ap
-1. _Chap:_ ch---ap
-```
-
---- raw-highlight-typc paged ---
-// Highlighting for Typst code
-#set page(width: auto)
-```typ
-#set hello()
-#set hello()
-#set hello.world()
-#set hello.my.world()
-#let foo(x) = x * 2
-#show heading: func
-#show module.func: func
-#show module.func: it => {}
-#foo(ident: ident)
-#hello
-#hello()
-#box[]
-#hello.world
-#hello.world()
-#hello().world()
-#hello.my.world
-#hello.my.world()
-#hello.my().world
-#hello.my().world()
-#{ hello }
-#{ hello() }
-#{ hello.world() }
-#if foo []
-```
-
---- raw-highlight-typm paged ---
-// Highlighting for Typst math
-#set page(width: auto)
-```typm
-1 + 2/3
-sum_(i=1)^n i = (n(n+1))/2
-binom(n, k) = n!/(k!(n - k)!)
-2 / √(2pi) = sqrt(2) / √pi
-3 * (1 - 2) <= #(3 * (1 + 2))
-((a+b))/((c)^(d')_(e')_(f)'/(g)'/(h)!)
-[\(a+b\)]/{\(c\)^[d']_{e'}_[|f|]'/[g]'/[\|h\|]!}
-f_zeta(x), f_zeta(x)/1, f_zeta (x)
-pi.alt + pi^arrow.l.long.double - π = ???
-"string" - + * ::= & \
-|=> & [|define(x-y_z: #1, x::= y; xyz; 0)|]
-std.text(op("Red"), fill: red)
-#std.text(math.op("Red"), fill: red)
-```
-
---- raw-highlight-typm-idents paged ---
-// Highlighting identifiers, field accesses and function calls in math
-#set page(width: auto)
-```typm
-hello
-hello-world
-hello()
-box[]
-hello.world
-hello.world()
-hello-world()
-hello_world()
-hello.my.world()
-emph(hello.my.world())
-emph(hello.my().world)
-emph(hello.my().world())
-emph (hello.my().world())
-#hello
-#hello()
-#hello.world
-#hello.world()
-#box[]
-```
-
---- raw-highlight-rust paged ---
-#set page(width: auto)
-
-```rust
-/// A state machine.
-#[derive(Debug)]
-enum State<'a> { A(u8), B(&'a str) }
-
-fn advance(state: State<'_>) -> State<'_> {
-    unimplemented!("state machine")
-}
-```
-
---- raw-highlight-py paged ---
-#set page(width: auto)
-
-```py
-import this
-
-def hi():
-  print("Hi!")
-```
-
---- raw-highlight-cpp paged ---
-#set page(width: auto)
-
-```cpp
-#include <iostream>
-
-int main() {
-  std::cout << "Hello, world!";
-}
-```
-
---- raw-highlight-html paged ---
-#set page(width: auto)
-
-```html
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-  </head>
-  <body>
-    <h1>Topic</h1>
-    <p>The Hypertext Markup Language.</p>
-    <script>
-      function foo(a, b) {
-        return a + b + "string";
-      }
-    </script>
-  </body>
-</html>
-```
-
---- raw-highlight-html-jinja2 paged ---
-#set page(width: auto)
-// FUTURE: Convert to raw syntax when we re-enable non-identifier language tags
-
-#raw(block: true, lang: "html.j2", ```
-<tbody>
-  {% for row in data.rows %}
-  <tr>
-      {% for column in row %}
-      <td>{{ column }}</td>
-      {% endfor %}
-  </tr>
-  {% endfor %}
-</tbody>
-```.text)
 
 --- raw-html html ---
 This is ```typ *inline*```.
@@ -668,11 +430,6 @@ print(x)
 print(y)
 ```
 
---- issue-3601-empty-raw paged ---
-// Test that empty raw block with `typ` language doesn't cause a crash.
-```typ
-```
-
 --- raw-empty-lines paged ---
 // Test raw with multiple empty lines.
 
@@ -683,26 +440,6 @@ print(y)
 
 
 
-```
-
---- issue-3841-tabs-in-raw-type-code paged ---
-// Tab chars were not rendered in raw blocks with lang: "typ(c)"
-#raw("#if true {\n\tf()\t// typ\n}", lang: "typ")
-
-#raw("if true {\n\tf()\t// typc\n}", lang: "typc")
-
-```typ
-#if true {
-	// tabs around f()
-	f()	// typ
-}
-```
-
-```typc
-if true {
-	// tabs around f()
-	f()	// typc
-}
 ```
 
 --- issue-6961-tab-crlf-raw-indent paged ---
@@ -718,22 +455,6 @@ if true {
   snippet.text.replace("  ", "\t").replace("\n", "\r\n"),
   block: true,
 )
-
---- issue-4662-math-mode-language-for-raw paged ---
-// Test lang: "typm" syntax highlighting without enclosing dollar signs
-#raw("pi^2", lang: "typm")
-
---- issue-2259-raw-color-overwrite paged ---
-// Test that the color of a raw block is not overwritten
-#show raw: set text(fill: blue)
-
-`Hello, World!`
-
-```rs
-fn main() {
-    println!("Hello, World!");
-}
-```
 
 --- issue-3191-raw-justify paged ---
 // Raw blocks should not be justified by default.
@@ -779,59 +500,6 @@ a b c --------------------
 
 #test(`foo`, `foo`)
 #assert.ne(`foo`, `bar`)
-
---- raw-theme-types paged ---
-```typ
-#let hi = "Hello World"
-```
-
-#set raw(theme: path("/assets/themes/halcyon.tmTheme"))
-```typ
-#let hi = "Hello World"
-```
-
-#set raw(theme: auto)
-```typ
-#let hi = "Hello World"
-```
-
---- raw-theme-set-to-none paged ---
-#set raw(theme: none)
-```typ
-#let foo = "bar"
-```
-
---- raw-default-json-theme paged ---
-```json
-{
-  "foo": "bar",
-  "test": [
-    "test",
-    true,
-    42,
-    5.0,
-    null
-  ],
-  "hi": {
-    "this": "is a test!",
-    "What is this?": "This is incredible text!"
-  }
-}
-```
-
---- raw-default-yaml-theme paged ---
-```yaml
-foo: bar
-test:
-- test
-- true
-- 42
-- 5
--
-hi:
-  this: is a test!
-  What is this?: This is incredible text!
-```
 
 --- raw-unclosed eval ---
 // Test unterminated raw text.

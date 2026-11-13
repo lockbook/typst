@@ -27,7 +27,7 @@ bc6a83eb915ca43700b5baedd0fb16f0 figure-tags-block-equation-with-caption
 04921fc62f0fdc8f19495c62366e5efd figure-tags-image-basic
 c08fe735930451017157dcb2ab74552b figure-tags-image-figure-with-caption
 0ad824bab5fac9f1c62c45622cdf6c93 figure-tags-inline-equation-with-caption
-cfbea2d7ed48bff043919987ff2a4130 figure-tags-listing
+62863310dfe33449ceaf99de8e26b864 figure-tags-listing
 434446e66eeb0f1a0cf8d8f307dbe594 figure-tags-only-marked-content
 d30d960cd017a77c60260a7386df8266 figure-tags-with-alt-flatten-content-basic
 02dc0d7c5ef5532c577742db0cad9076 figure-tags-with-alt-flatten-content-complex
@@ -83,7 +83,7 @@ ae9aa00212182ad8cc986d29ea0539de query-tags-duplicate-heading
 c84ca6499156caae240d49e479012d62 query-tags-duplicate-labelled-element
 28246634e0f372da8d5bf731bdfa820f quote-dir-align
 462ca2df0a461ede39d2d9af76ce6d19 quote-dir-author-pos
-39a38207dbd90e53b1e249d95d369848 raw-tags-basic-block
+7a52078b6b353b156acc41d90ebc0707 raw-tags-basic-block
 4d5040b30582996159517cbc049e7994 raw-tags-basic-inline
 8efa36d951d964961f8829cda55209e9 table-tags-basic
 efbb6418387cf90300ca31f87b9ce91b table-tags-column-and-row-header
@@ -93,7 +93,7 @@ efbb6418387cf90300ca31f87b9ce91b table-tags-column-and-row-header
 68a1f31330340e29bd694a5873a64a42 table-tags-missing-cells
 60d39964f430e4186fe9d0f20e2a9618 table-tags-rowspan-split-1
 8c29a49aab34f279f4f263b694a22baf table-tags-rowspan-split-2
-fe293e846c491aa08f5bb6073649b523 table-tags-show-rule
+92751585d257d492709595ba60f9e944 table-tags-show-rule
 60d057d99899f6c2a13e66f64f36d618 table-tags-unset-bottom-line
 60dffc17451532b755c36045d1f21cf9 table-tags-unstable-functions
 06a04f07d3efc428b7b320ff4ee86d3d terms-constructor
