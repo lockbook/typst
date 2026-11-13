@@ -552,9 +552,6 @@ fn close_group(tree: &mut Tree, surface: &mut Surface, id: GroupId) -> GroupId {
                 tree.groups.push_group(direct_parent, id);
             }
         }
-        GroupKind::Image(..) => {
-            tree.groups.push_group(direct_parent, id);
-        }
         GroupKind::Formula(..) => {
             tree.groups.push_group(direct_parent, id);
         }

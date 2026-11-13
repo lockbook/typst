@@ -223,10 +223,6 @@
 // Error: 31-38 expected `rgb`, `luma`, `cmyk`, `oklab`, `oklch`, `color.linear-rgb`, `color.hsl`, `color.hsv`, or spot colorant, found string
 #color.mix(red, green, space: "cyber")
 
---- color-mix-bad-space-value-1 eval ---
-// Error: 31-36 expected `rgb`, `luma`, `cmyk`, `oklab`, `oklch`, `color.linear-rgb`, `color.hsl`, `color.hsv`, or spot colorant
-#color.mix(red, green, space: image)
-
 --- color-mix-bad-space-value-2 eval ---
 // Error: 31-41 expected `rgb`, `luma`, `cmyk`, `oklab`, `oklch`, `color.linear-rgb`, `color.hsl`, `color.hsv`, or spot colorant
 #color.mix(red, green, space: calc.round)
@@ -320,13 +316,6 @@
 --- issue-color-mix-luma paged ---
 // When mixing luma colors, we accidentally used the wrong component.
 #rect(fill: gradient.linear(black, silver, space: luma))
-
---- issue-4361-transparency-leak paged ---
-// Ensure that transparency doesn't leak from shapes to images in PDF. The PNG
-// test doesn't validate it, but at least we can discover regressions on the PDF
-// output with a PDF comparison script.
-#rect(fill: red.transparentize(50%))
-#image("/assets/images/tiger.jpg", width: 45pt)
 
 --- spot-color-basic paged ---
 // Test basic spot color creation and rendering.

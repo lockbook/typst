@@ -1,7 +1,6 @@
 use std::num::NonZeroUsize;
 use std::sync::Arc;
 
-use az::SaturatingAs;
 use comemo::Track;
 use ecow::{EcoVec, eco_format};
 use typst_library::diag::{At, warning};
@@ -13,7 +12,7 @@ use typst_library::introspection::{
     Counter, DocumentIntrospection, Locator, QueryIntrospection,
 };
 use typst_library::layout::resolve::{Cell, CellGrid, Entry, Header};
-use typst_library::layout::{BlockElem, HElem, OuterVAlignment, Sizing};
+use typst_library::layout::{BlockElem, HElem, OuterVAlignment};
 use typst_library::math::EquationElem;
 use typst_library::math::ir::resolve_equation;
 use typst_library::model::{
@@ -28,7 +27,6 @@ use typst_library::text::{
     HighlightElem, LinebreakElem, OverlineElem, RawElem, RawLine, SmallcapsElem,
     SpaceElem, StrikeElem, SubElem, SuperElem, UnderlineElem,
 };
-use typst_library::visualize::ImageElem;
 use typst_syntax::Span;
 
 use crate::mathml::convert_math_to_nodes;
@@ -75,7 +73,6 @@ pub fn register(rules: &mut NativeRuleMap) {
     rules.register(Html, RAW_LINE_RULE);
 
     // Visualize.
-    rules.register(Html, IMAGE_RULE);
 
     // Math.
     rules.register(Html, EQUATION_RULE);
@@ -667,55 +664,6 @@ const RAW_RULE: ShowFn<RawElem> = |elem, _, styles| {
 };
 
 const RAW_LINE_RULE: ShowFn<RawLine> = |elem, _, _| Ok(elem.body.clone());
-
-// Also check `PATCHED_IMAGE_RULE` in `docs/src/main.rs` when editing this.
-const IMAGE_RULE: ShowFn<ImageElem> = |elem, engine, styles| {
-    let image = elem.decode(engine, styles)?;
-
-    let mut attrs = HtmlAttrs::new();
-    let src = typst_svg::WebImage::new(&image).to_base64_url();
-    attrs.push(attr::src, src);
-
-    if let Some(alt) = elem.alt.get_cloned(styles) {
-        attrs.push(attr::alt, alt);
-    }
-
-    // The `width` and `height` properties on the HTML element are only used to
-    // reserve space while the browser is fetching. They are integers. Still, in
-    // case of fractional image sizes, rounding is better than nothing and will
-    // not disrupt the aspect ratio of the final image.
-    let cast = |v: f64| eco_format!("{}", v.round().saturating_as::<i64>());
-    attrs.push(attr::width, cast(image.width()));
-    attrs.push(attr::height, cast(image.height()));
-
-    let mut css = css::Properties::build((engine, elem.span()));
-
-    // TODO: Exclude in semantic profile.
-    if let Some(value) = typst_svg::convert_image_scaling(image.scaling()) {
-        css.push("image-rendering", value);
-    }
-
-    // TODO: Exclude in semantic profile?
-    match elem.width.get(styles) {
-        Smart::Auto => {}
-        Smart::Custom(rel) => css.push("width", rel),
-    }
-
-    // TODO: Exclude in semantic profile?
-    match elem.height.get(styles) {
-        Sizing::Auto => {}
-        Sizing::Rel(rel) => css.push("height", rel),
-        Sizing::Fr(_) => {}
-    }
-
-    Ok(BlockElem::packed(
-        HtmlElem::new(tag::img)
-            .with_attrs(attrs)
-            .with_css(css.finish())
-            .pack()
-            .spanned(elem.span()),
-    ))
-};
 
 const EQUATION_RULE: ShowFn<EquationElem> = |elem, engine, styles| {
     let arenas = Arenas::default();

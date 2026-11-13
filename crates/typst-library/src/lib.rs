@@ -17,7 +17,6 @@ pub mod engine;
 pub mod foundations;
 pub mod introspection;
 pub mod layout;
-pub mod loading;
 pub mod math;
 pub mod model;
 pub mod pdf;

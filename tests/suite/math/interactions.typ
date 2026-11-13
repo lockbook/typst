@@ -7,11 +7,6 @@
 // Hint: 4-6 or if you meant to display this as text, try placing it in quotes: `"ab"`
 $ 5ab $
 
---- math-nested-normal-layout paged ---
-// Test images and font fallback.
-#let monkey = move(dy: 0.2em, image("/assets/images/monkey.svg", height: 1em))
-$ sum_(i=#emoji.apple)^#emoji.apple.red i + monkey/2 $
-
 --- math-table paged ---
 // Test tables.
 $ x := #table(columns: 2)[x][y]/mat(1, 2, 3)

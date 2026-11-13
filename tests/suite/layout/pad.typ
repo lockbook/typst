@@ -18,13 +18,6 @@ Hi #box(pad(left: 10pt)[A]) there
 // Pad can grow.
 #pad(left: 10pt, right: 10pt)[PL #h(1fr) PR]
 
---- pad-followed-by-content paged ---
-// Test that the pad element doesn't consume the whole region.
-#set page(height: 6cm)
-#align(left)[Before]
-#pad(10pt, image("/assets/images/tiger.jpg"))
-#align(right)[After]
-
 --- pad-adding-to-100-percent paged empty ---
 // Test that padding adding up to 100% does not panic.
 #pad(50%)[]

@@ -319,10 +319,6 @@ pub fn jump_from_click_in_frame(
                 }
             }
 
-            FrameItem::Image(_, size, span) if is_in_rect(pos, *size, click) => {
-                return Jump::from_span(world, *span);
-            }
-
             _ => {}
         }
     }

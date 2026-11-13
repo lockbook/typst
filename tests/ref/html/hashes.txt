@@ -48,10 +48,6 @@ c3be983a199a95106caffe0572463a58 html-style
 f9671e4e56820cd2f5fbd767d04eabc0 html-textarea-starting-with-newline
 9a0437e6bfcead63fe7f55125d1df400 html-typed
 58895c458693621c61d4d498ab0f8b64 html-untyped-style-content
-f7eaf53ac8ae30b69426912e83ff1b43 image-blocky-html
-59e349bb0bd41fb1a37a6d575c12b41e image-jpg-html-base64
-9f48aacd22eb84ab8ec2e7f2d6afd263 image-scaling-methods
-f313175b86baa591804da764b851769e image-sizing-html-css
 ebb2e91d7098e524109cd9f005579e8a issue-1052-math-number-spacing
 261b7188e11dafe77fc61c38426592d9 issue-1617-mat-align
 40f8581350cacee0e9cbee2adec51e87 issue-1948-math-text-break

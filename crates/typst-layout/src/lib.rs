@@ -3,7 +3,6 @@
 mod document;
 mod flow;
 mod grid;
-mod image;
 mod inline;
 mod introspect;
 mod lists;

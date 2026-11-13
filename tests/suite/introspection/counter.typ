@@ -245,14 +245,6 @@ $ 1 + 2 $ <eq>
 #set heading(numbering: "I)")
 #context counter(heading).display(at: <at>)
 
---- counter-figure paged ---
-// Count figures.
-#figure(numbering: "A", caption: [Four 'A's], kind: image, supplement: "Figure")[_AAAA!_]
-#figure(numbering: none, caption: [Four 'B's], kind: image, supplement: "Figure")[_BBBB!_]
-#figure(caption: [Four 'C's], kind: image, supplement: "Figure")[_CCCC!_]
-#counter(figure.where(kind: image)).update(n => n + 3)
-#figure(caption: [Four 'D's], kind: image, supplement: "Figure")[_DDDD!_]
-
 --- counter-at-no-context eval ---
 // Test `counter.at` outside of context.
 // Error: 2-28 can only be used when context is known

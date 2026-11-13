@@ -38,11 +38,6 @@ Life المطر هو الحياة \
 L #h(1cm) ריווחR \
 Lריווח #h(1cm) R
 
---- bidi-obj paged ---
-// Test inline object.
-#set text(lang: "he")
-קרנפיםRh#box(image("/assets/images/rhino.png", height: 11pt))inoחיים
-
 --- bidi-whitespace-reset paged ---
 // Test whether L1 whitespace resetting destroys stuff.
 #set text(font: ("Libertinus Serif", "Noto Sans Arabic"))

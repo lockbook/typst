@@ -13,7 +13,6 @@ use krilla::page::{PageLabel, PageSettings};
 use krilla::surface::Surface;
 use krilla::tagging::ArtifactType;
 use krilla::{Document, SerializeSettings};
-use krilla_svg::render_svg_glyph;
 use rustc_hash::{FxBuildHasher, FxHashMap, FxHashSet};
 use smallvec::SmallVec;
 use typst_layout::PagedDocument;
@@ -30,7 +29,6 @@ use typst_syntax::Span;
 
 use crate::PdfOptions;
 use crate::attach::attach_files;
-use crate::image::handle_image;
 use crate::link::{LinkAnnotation, handle_link};
 use crate::metadata::build_metadata;
 use crate::outline::build_outline;
@@ -58,8 +56,8 @@ pub fn convert(
         cmyk_profile: None,
         configuration: options.standards.config,
         enable_tagging: options.tagged,
-        render_svg_glyph_fn: render_svg_glyph,
         pretty: options.pretty,
+        ..SerializeSettings::default()
     };
 
     let mut document = Document::new_with(settings);
@@ -278,14 +276,6 @@ pub(crate) struct GlobalContext<'a> {
     /// Cache the conversion between krilla and Typst fonts (forward and backward).
     pub(crate) fonts_forward: FxHashMap<FontInstance, krilla::text::Font>,
     pub(crate) fonts_backward: FxHashMap<krilla::text::Font, FontInstance>,
-    /// Mapping between images and their span.
-    // Note: In theory, the same image can have multiple spans
-    // if it appears in the document multiple times. We just store the
-    // first appearance, though.
-    pub(crate) image_to_spans: FxHashMap<krilla::image::Image, Span>,
-    /// The spans of all images that appear in the document. We use this so
-    /// we can give more accurate error messages.
-    pub(crate) image_spans: FxHashSet<Span>,
     /// The document to convert.
     pub(crate) document: &'a PagedDocument,
     /// Options for PDF export.
@@ -315,8 +305,6 @@ impl<'a> GlobalContext<'a> {
             options,
             link_resolver,
             loc_to_names,
-            image_to_spans: FxHashMap::default(),
-            image_spans: FxHashSet::default(),
             page_index_converter,
             tags,
         }
@@ -363,9 +351,6 @@ pub(crate) fn handle_frame(
             FrameItem::Text(t) => handle_text(fc, t, surface, gc)?,
             FrameItem::Shape(s, span) => {
                 handle_shape(fc, s, surface, gc, *span, ArtifactType::Layout)?
-            }
-            FrameItem::Image(image, size, span) => {
-                handle_image(gc, fc, image, *size, surface, *span)?
             }
             FrameItem::Link(dest, size) => handle_link(fc, gc, dest, *size)?,
             FrameItem::Tag(Tag::Start(_, flags)) => {
@@ -455,17 +440,6 @@ fn finish(
                     })
                     .collect::<EcoVec<_>>();
                 Err(errors)
-            }
-            KrillaError::Image(_, loc, err) => {
-                let span = to_span(loc);
-                bail!(span, "failed to process image ({err})");
-            }
-            KrillaError::SixteenBitImage(image, _) => {
-                let span = gc.image_to_spans.get(&image).unwrap();
-                bail!(
-                    *span, "16 bit images are not supported in this export mode";
-                    hint: "convert the image to 8 bit instead";
-                )
             }
             KrillaError::DuplicateTagId(_, loc) => {
                 let span = to_span(loc);
@@ -629,22 +603,12 @@ fn convert_error(
             let hint1 = "try exporting with a different standard that \
                          supports transparency";
             if loc.is_some() {
-                if gc.image_spans.contains(&span) {
-                    error!(
-                        span, "{prefix} the image contains transparency";
-                        hint: "{hint1}";
-                        hint: "or convert the image to a non-transparent one";
-                        hint: "you might have to convert SVGs into \
-                               non-transparent bitmap images";
-                    )
-                } else {
-                    error!(
-                        span, "{prefix} the used fill or stroke has transparency";
-                        hint: "{hint1}";
-                        hint: "or don't use colors with transparency in \
-                               this export mode";
-                    )
-                }
+                error!(
+                    span, "{prefix} the used fill or stroke has transparency";
+                    hint: "{hint1}";
+                    hint: "or don't use colors with transparency in \
+                           this export mode";
+                )
             } else {
                 error!(
                     span, "{prefix} the PDF contains transparency";

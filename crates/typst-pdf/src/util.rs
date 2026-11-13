@@ -11,7 +11,7 @@ use krilla::paint as kp;
 use krilla::tagging as kt;
 use smallvec::SmallVec;
 use typst_library::foundations::Repr;
-use typst_library::layout::{Abs, Point, Sides, Size, Transform};
+use typst_library::layout::{Abs, Point, Sides, Transform};
 use typst_library::text::FontInstance;
 use typst_library::visualize::SpotColorantName;
 use typst_library::visualize::{Curve, CurveItem, FillRule, LineCap, LineJoin};
@@ -29,16 +29,6 @@ impl<T> SidesExt<T> for Sides<T> {
             start: self.left,
             end: self.right,
         }
-    }
-}
-
-pub(crate) trait SizeExt {
-    fn to_krilla(&self) -> Option<kg::Size>;
-}
-
-impl SizeExt for Size {
-    fn to_krilla(&self) -> Option<kg::Size> {
-        kg::Size::from_wh(self.x.to_f32(), self.y.to_f32())
     }
 }
 

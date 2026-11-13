@@ -5,9 +5,9 @@ use krilla::surface::Surface;
 use krilla::tagging::{Artifact, ArtifactType, ContentTag, SpanTag};
 use typst_layout::PagedDocument;
 use typst_library::diag::{SourceResult, bail};
-use typst_library::layout::{FrameParent, Point, Rect, Size};
+use typst_library::layout::{FrameParent, Rect, Size};
 use typst_library::text::{Locale, TextItem};
-use typst_library::visualize::{Image, Shape};
+use typst_library::visualize::Shape;
 use typst_syntax::Span;
 
 use crate::PdfOptions;
@@ -223,30 +223,6 @@ pub fn text<'a, 'b>(
     let id = surface.start_tagged(content);
 
     gc.tags.push_text(attrs, id);
-
-    TagHandle { surface, started: true }
-}
-
-pub fn image<'a, 'b>(
-    gc: &mut GlobalContext,
-    fc: &FrameContext,
-    surface: &'b mut Surface<'a>,
-    image: &Image,
-    size: Size,
-) -> TagHandle<'a, 'b> {
-    if disabled(gc) {
-        return TagHandle { surface, started: false };
-    }
-
-    update_bbox(gc, fc, || Rect::from_pos_size(Point::zero(), size));
-
-    if gc.tags.tree.parent_artifact().is_some() {
-        return TagHandle { surface, started: false };
-    }
-
-    let content = ContentTag::Span(SpanTag::empty().with_alt_text(image.alt()));
-    let id = surface.start_tagged(content);
-    gc.tags.push_leaf(id);
 
     TagHandle { surface, started: true }
 }

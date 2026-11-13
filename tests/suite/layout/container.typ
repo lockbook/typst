@@ -223,12 +223,6 @@ world 2
   is the sun.
 ]
 
---- block-clip-svg-glyphs paged ---
-// Test clipping svg glyphs
-Emoji: #box(height: 0.5em, stroke: 1pt + black)[🐪, 🌋, 🏞]
-
-Emoji: #box(height: 0.5em, clip: true, stroke: 1pt + black)[🐪, 🌋, 🏞]
-
 --- block-clipping-multiple-pages paged ---
 // Test block clipping over multiple pages.
 #set page(height: 60pt)
@@ -239,44 +233,6 @@ First!
   But, soft! what light through yonder window breaks? It is the east, and Juliet
   is the sun.
 ]
-
---- box-clip-radius paged ---
-// Test clipping with `radius`.
-#set page(height: 60pt)
-
-#box(
-  radius: 5pt,
-  stroke: 2pt + black,
-  width: 20pt,
-  height: 20pt,
-  clip: true,
-  image("/assets/images/rhino.png", width: 30pt)
-)
-
---- box-clip-radius-without-stroke paged ---
-// Test clipping with `radius`, but without `stroke`.
-#set page(height: 60pt)
-
-#box(
-  radius: 5pt,
-  width: 20pt,
-  height: 20pt,
-  clip: true,
-  image("/assets/images/rhino.png", width: 30pt)
-)
-
---- box-clip-outset paged ---
-// Test clipping with `outset`.
-#set page(height: 60pt)
-
-#box(
-  outset: 5pt,
-  stroke: 2pt + black,
-  width: 20pt,
-  height: 20pt,
-  clip: true,
-  image("/assets/images/rhino.png", width: 30pt)
-)
 
 --- box-baseline-context paged empty ---
 #context test(box.baseline, (at: auto, shift: 0pt))

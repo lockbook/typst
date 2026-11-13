@@ -91,10 +91,10 @@ fn test_info() {
 #[test]
 fn test_deps() {
     let project = tempfs();
-    let main = project.write("main.typ", "#image(\"tiger.jpg\")");
-    project.write("tiger.jpg", typst_dev_assets::get_by_name("tiger.jpg").unwrap());
+    let main = project.write("main.typ", "#include \"a.typ\"");
+    project.write("a.typ", "A");
     let output = exec().arg("compile").arg(main).arg("--deps").arg("-").must_succeed();
-    output.stdout.must_contain("tiger.jpg").must_contain("main.typ");
+    output.stdout.must_contain("a.typ").must_contain("main.typ");
 }
 
 #[test]
@@ -200,17 +200,6 @@ fn test_path_to_package() {
         .arg(package.path())
         .must_fail();
     output.stderr.must_contain("error: panicked with: (7, 42)");
-}
-
-#[test]
-fn test_network_access_hint() {
-    // Using a CLI test because the error message differs across operating
-    // systems. If the test runner could handle that, we could migrate to a
-    // normal test.
-    let project = tempfs();
-    let main = project.write("main.typ", "#image(\"https://example.org/image.png\")");
-    let output = exec().arg("compile").arg(main).must_fail();
-    output.stderr.must_contain("hint: network access is not supported");
 }
 
 #[test]

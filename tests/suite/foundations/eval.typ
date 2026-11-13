@@ -31,18 +31,6 @@ Blue #move(dy: -0.15em)[🌊]
 // Error: 7-12 expected semicolon or line break
 #eval("1 2")
 
---- eval-path-resolve paged ---
-// Test absolute path.
-#eval("image(\"/assets/images/tiger.jpg\", width: 50%)")
-
---- eval-path-resolve-in-show-rule paged ---
-#show raw: it => eval(it.text, mode: "markup")
-
-```
-#show emph: image("/assets/images/tiger.jpg", width: 50%)
-_Tiger!_
-```
-
 --- issue-2055-math-eval paged ---
 // Evaluating a math expr should renders the same as an equation
 #eval(mode: "math", "f(a) = cases(a + b\, space space x >= 3,a + b\, space space x = 5)")

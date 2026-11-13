@@ -29,8 +29,8 @@ use typst_library::text::{
     UnderlineElem, WeightDelta,
 };
 use typst_library::visualize::{
-    CircleElem, CurveElem, EllipseElem, ImageElem, LineElem, PolygonElem, RectElem,
-    SquareElem, Stroke,
+    CircleElem, CurveElem, EllipseElem, LineElem, PolygonElem, RectElem, SquareElem,
+    Stroke,
 };
 use typst_utils::{Get, Numeric};
 
@@ -88,7 +88,6 @@ pub fn register(rules: &mut NativeRuleMap) {
     rules.register(Paged, LAYOUT_RULE);
 
     // Visualize.
-    rules.register(Paged, IMAGE_RULE);
     rules.register(Paged, LINE_RULE);
     rules.register(Paged, RECT_RULE);
     rules.register(Paged, SQUARE_RULE);
@@ -668,13 +667,6 @@ const LAYOUT_RULE: ShowFn<LayoutElem> = |elem, _, _| {
         },
     )
     .pack())
-};
-
-const IMAGE_RULE: ShowFn<ImageElem> = |elem, _, styles| {
-    Ok(BlockElem::single_layouter(elem.clone(), crate::image::layout_image)
-        .with_width(elem.width.get(styles))
-        .with_height(elem.height.get(styles))
-        .pack())
 };
 
 const LINE_RULE: ShowFn<LineElem> = |elem, _, _| {

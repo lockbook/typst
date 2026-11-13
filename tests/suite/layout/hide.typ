@@ -73,12 +73,6 @@ Hidden:
   2. B
 - 3
 
---- hide-image paged ---
-Hidden:
-#hide(image("/assets/images/tiger.jpg", width: 5cm, height: 1cm,))
-
-#image("/assets/images/tiger.jpg", width: 5cm, height: 1cm,)
-
 --- issue-622-hide-meta-outline paged ---
 #set text(8pt)
 #outline()

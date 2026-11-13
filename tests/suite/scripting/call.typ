@@ -50,11 +50,11 @@
 #x()
 
 --- call-shadowed-builtin-function eval ---
-#let image = "image"
+#let table = "table"
 
 // Error: 2-7 expected function, found string
-// Hint: 2-7 use `std.image` to access the shadowed standard library function
-#image("image")
+// Hint: 2-7 use `std.table` to access the shadowed standard library function
+#table("table")
 
 --- call-bad-type-int-expr eval ---
 #let f(x) = x

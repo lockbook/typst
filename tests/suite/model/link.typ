@@ -50,13 +50,6 @@ You could also make the
 #let mylink = link("https://typst.org/")[LINK]
 My cool #box(move(dx: 0.7cm, dy: 0.7cm, rotate(10deg, scale(200%, mylink))))
 
---- link-on-block paged ---
-// Link containing a block.
-#link("https://example.com/", block[
-  My cool rhino
-  #box(move(dx: 10pt, image("/assets/images/rhino.png", width: 1cm)))
-])
-
 --- link-to-page paged ---
 // Link to page one.
 #link((page: 1, x: 10pt, y: 20pt))[Back to the start]

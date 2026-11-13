@@ -26,31 +26,23 @@ codex = { workspace = true }
 comemo = { workspace = true }
 ecow = { workspace = true }
 either = { workspace = true }
-flate2 = { workspace = true }
-fontdb = { workspace = true }
 glidesort = { workspace = true }
 icu_properties = { workspace = true }
-image = { workspace = true }
 indexmap = { workspace = true }
-kamadak-exif = { workspace = true }
 kurbo = { workspace = true }
 libm = { workspace = true }
 lipsum = { workspace = true }
-memchr = { workspace = true }
 moxcms = { workspace = true }
 palette = { workspace = true }
 percent-encoding = { workspace = true }
 phf = { workspace = true }
-png = { workspace = true }
 rayon = { workspace = true }
 regex = { workspace = true }
 regex-syntax = { workspace = true }
-roxmltree = { workspace = true }
 rust_decimal = { workspace = true }
 rustc-hash = { workspace = true }
 rustybuzz = { workspace = true }
 serde = { workspace = true }
-siphasher = { workspace = true }
 smallvec = { workspace = true }
 time = { workspace = true }
 ttf-parser = { workspace = true }
@@ -58,10 +50,6 @@ typed-arena = { workspace = true }
 unicode-math-class = { workspace = true }
 unicode-normalization = { workspace = true }
 unicode-segmentation = { workspace = true }
-unscanny = { workspace = true }
-usvg = { workspace = true }
-utf8_iter = { workspace = true }
-xmlwriter = { workspace = true }
 
 [dev-dependencies]
 typst-dev-assets = { workspace = true }

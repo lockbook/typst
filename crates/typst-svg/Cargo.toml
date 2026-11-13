@@ -18,11 +18,9 @@ typst-library = { workspace = true }
 typst-macros = { workspace = true }
 typst-timing = { workspace = true }
 typst-utils = { workspace = true }
-base64 = { workspace = true }
 comemo = { workspace = true }
 ecow = { workspace = true }
 flate2 = { workspace = true }
-image = { workspace = true }
 indexmap = { workspace = true }
 itoa = { workspace = true }
 rustc-hash = { workspace = true }

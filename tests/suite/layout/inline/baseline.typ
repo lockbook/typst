@@ -8,15 +8,6 @@ Our cockatoo was one of the
 #text(baseline: 0.2em)[birds #box(circle(radius: 2pt))]
 that ever learned to mimic a human voice.
 
---- baseline-box paged ---
-Hey #box(baseline: 40%, image("/assets/images/tiger.jpg", width: 1.5cm)) there!
-
-Nice to #box(inset: 1em, stroke: red)[meet] you.
-
-How #box(baseline: (at: auto, shift: -1em))[are] you?
-
-Doing #box(baseline: (at: auto, shift: 1em))[just\ fine]!
-
 --- baseline-box-align paged ---
 #bounds[Hey #box(baseline: auto, rect(width: 1.5cm, height: 3em, fill: green)) there!]
 #bounds[Hey #box(baseline: top, rect(width: 1.5cm, height: 3em, fill: green)) there!]

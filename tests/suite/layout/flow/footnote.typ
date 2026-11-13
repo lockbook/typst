@@ -174,17 +174,6 @@ C
 
 #lines(5)
 
---- footnote-in-caption paged ---
-// Test footnote in caption.
-Read the docs #footnote[https://typst.app/docs]!
-#figure(
-  image("/assets/images/graph.png", width: 70%),
-  caption: [
-    A graph #footnote[A _graph_ is a structure with nodes and edges.]
-  ]
-)
-More #footnote[just for ...] footnotes #footnote[... testing. :)]
-
 --- footnote-in-place paged ---
 A
 #place(top + right, footnote[A])
@@ -266,29 +255,6 @@ Ref @fn
 #footnote[Hi]<fn>
 #ref(<fn>)
 #footnote(<fn>)
-
---- footnote-in-table paged ---
-// Test footnotes in tables. When the table spans multiple pages, the footnotes
-// will all be after the table, but it shouldn't create any empty pages.
-#set page(height: 100pt)
-
-= Tables
-#table(
-  columns: 2,
-  [Hello footnote #footnote[This is a footnote.]],
-  [This is more text],
-  [This cell
-   #footnote[This footnote is not on the same page]
-   breaks over multiple pages.],
-  image("/assets/images/tiger.jpg"),
-)
-
-#table(
-  columns: 3,
-  ..range(1, 10)
-    .map(numbering.with("a"))
-    .map(v => upper(v) + footnote(v))
-)
 
 --- footnote-multiple-in-one-line paged ---
 #set page(height: 100pt)

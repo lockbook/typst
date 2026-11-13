@@ -1,17 +1,3 @@
---- figure-tags-image-basic pdftags pdfstandard(ua-1) ---
-// The image is automatically wrapped in a figure tag.
-#image(alt: "A tiger", "/assets/images/tiger.jpg")
-
---- figure-tags-image-figure-with-caption pdftags pdfstandard(ua-1) ---
-#figure(
-  // The image doesn't create a duplicate figure tag
-  // and the alt description is used in the outer figure.
-  image(alt: "A tiger", "/assets/images/tiger.jpg"),
-  // The caption is stored outside of the figure tag
-  // grouped in a nonstruct.
-  caption: [Some caption]
-)
-
 --- figure-tags-inline-equation-with-caption pdftags pdfstandard(ua-1) ---
 #figure(
   math.equation(
@@ -42,26 +28,6 @@
   $sum_(i=1)^n(i)$
 ]
 
---- figure-tags-with-alt-flatten-content-complex pdftags pdfstandard(ua-1) ---
-#figure(alt: "alt text")[
-  #table(
-    columns: 2,
-    // The link tag needs to be retained
-    link("https://github.com/typst/typst")[
-      #image("/assets/images/tiger.jpg")
-    ],
-    image("/assets/images/tiger.jpg"),
-    [Some more text],
-  )
-]
-
---- figure-tags-alt-with-different-lang pdftags pdfstandard(ua-1) ---
-#set text(lang: "de")
-Ein Paragraph.
-
-#set text(lang: "en", region: "uk")
-#figure(image(alt: "A tiger", "/assets/images/tiger.jpg"))
-
 --- figure-tags-listing pdftags pdfstandard(ua-1) ---
 #figure[
   ```rs
@@ -81,12 +47,6 @@ Ein Paragraph.
 --- figure-tags-only-marked-content pdftags ---
 #figure[
   #rect(fill: red)
-]
-
---- figure-tags-additional-caption-inside-body pdftags ---
-#figure(caption: [The real caption])[
-  #image(alt: "A tiger", "/assets/images/tiger.jpg"),
-  #figure.caption[Additional caption]
 ]
 
 --- figure-tags-additional-caption-inside-table pdftags pdfstandard(ua-1) ---

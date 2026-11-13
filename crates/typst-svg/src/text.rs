@@ -61,7 +61,7 @@ impl SVGRenderer<'_> {
         x_offset: Abs,
         y_offset: Abs,
     ) {
-        if should_outline(&text.font, glyph_id) {
+        if should_outline(&text.font) {
             // Pre-scale outlined glyphs, so strokes and fill patterns don't
             // need to consider text size glyph scaling.
             let scale = Ratio::new(text.size.to_pt() / text.font.units_per_em());
@@ -199,9 +199,6 @@ impl SVGRenderer<'_> {
                     match &frame.item {
                         GlyphFrameItem::Tofu(_, shape) => {
                             self.render_shape(&mut symbol, &state, shape);
-                        }
-                        GlyphFrameItem::Image(_, image, size) => {
-                            self.render_image(&mut symbol, &state, image, size);
                         }
                     }
                 }

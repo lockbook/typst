@@ -36,18 +36,6 @@ Hello *#x*
   [Not blue]
 }
 
---- closure-path-resolve-in-layout-phase paged ---
-// Test relative path resolving in layout phase.
-#let choice = ("monkey.svg", "rhino.png", "tiger.jpg")
-#set enum(numbering: n => {
-  let path = "/assets/images/" + choice.at(n - 1)
-  move(dy: -0.15em, image(path, width: 1em, height: 1em))
-})
-
-+ Monkey
-+ Rhino
-+ Tiger
-
 --- set-if paged ---
 // Test conditional set.
 #show ref: it => {

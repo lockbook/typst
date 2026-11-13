@@ -3,7 +3,6 @@
 mod color;
 mod curve;
 mod gradient;
-mod image;
 mod line;
 mod paint;
 mod polygon;
@@ -14,7 +13,6 @@ mod tiling;
 pub use self::color::*;
 pub use self::curve::*;
 pub use self::gradient::*;
-pub use self::image::*;
 pub use self::line::*;
 pub use self::paint::*;
 pub use self::polygon::*;
@@ -31,7 +29,6 @@ pub(super) fn define(global: &mut Scope) {
     global.define_type::<Gradient>();
     global.define_type::<Tiling>();
     global.define_type::<Stroke>();
-    global.define_elem::<ImageElem>();
     global.define_elem::<LineElem>();
     global.define_elem::<RectElem>();
     global.define_elem::<SquareElem>();

@@ -10,7 +10,6 @@ use typst_library::layout::{GridCell, Inherit, Size};
 use typst_library::math::EquationElem;
 use typst_library::model::{LinkMarker, OutlineEntry, TableCell};
 use typst_library::text::Locale;
-use typst_library::visualize::ImageElem;
 use typst_syntax::Span;
 
 use crate::PdfOptions;
@@ -131,7 +130,6 @@ impl Groups {
             GroupKind::FigureWrapper(..) => Never,
             GroupKind::Figure(..) => Never,
             GroupKind::FigureCaption(..) => Never,
-            GroupKind::Image(..) => Never,
             GroupKind::Formula(..) => Never,
             GroupKind::Link(..) => NoPdfUa(BreakPriority::Span),
             GroupKind::CodeBlock(..) => Never,
@@ -215,7 +213,6 @@ impl Groups {
             | GroupKind::FigureWrapper(..)
             | GroupKind::Figure(..)
             | GroupKind::FigureCaption(..)
-            | GroupKind::Image(..)
             | GroupKind::Formula(..)
             | GroupKind::CodeBlock(..)
             | GroupKind::CodeBlockLine(..)
@@ -441,7 +438,6 @@ pub enum GroupKind {
     /// the bbox of the parent figure group kind. The caption might be moved
     /// into table, or next to the figure tag.
     FigureCaption(BBoxId, Option<Locale>),
-    Image(Packed<ImageElem>, BBoxId, Option<Locale>),
     Formula(Packed<EquationElem>, BBoxId, Option<Locale>),
     Link(Packed<LinkMarker>, Option<Locale>),
     CodeBlock(Option<Locale>),
@@ -476,7 +472,6 @@ impl std::fmt::Debug for GroupKind {
             Self::FigureWrapper(..) => "FigureWrapper",
             Self::Figure(..) => "Figure",
             Self::FigureCaption(..) => "FigureCaption",
-            Self::Image(..) => "Image",
             Self::Formula(..) => "Formula",
             Self::Link(..) => "Link",
             Self::CodeBlock(..) => "CodeBlock",
@@ -554,7 +549,6 @@ impl GroupKind {
             GroupKind::Table(_, id, _) => Some(*id),
             GroupKind::Figure(_, id, _) => Some(*id),
             GroupKind::FigureCaption(id, _) => Some(*id),
-            GroupKind::Image(_, id, _) => Some(*id),
             GroupKind::Formula(_, id, _) => Some(*id),
             _ => None,
         }
@@ -580,7 +574,6 @@ impl GroupKind {
             GroupKind::FigureWrapper(_) => return None,
             GroupKind::Figure(_, _, lang) => lang,
             GroupKind::FigureCaption(_, lang) => lang,
-            GroupKind::Image(_, _, lang) => lang,
             GroupKind::Formula(_, _, lang) => lang,
             GroupKind::Link(_, lang) => lang,
             GroupKind::CodeBlock(lang) => lang,
@@ -612,7 +605,6 @@ impl GroupKind {
             GroupKind::FigureWrapper(_) => return None,
             GroupKind::Figure(_, _, lang) => lang,
             GroupKind::FigureCaption(_, lang) => lang,
-            GroupKind::Image(_, _, lang) => lang,
             GroupKind::Formula(_, _, lang) => lang,
             GroupKind::Link(_, lang) => lang,
             GroupKind::CodeBlock(lang) => lang,

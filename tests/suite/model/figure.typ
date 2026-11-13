@@ -1,45 +1,11 @@
 // Test figures.
 
---- figure-basic paged pdftags pdfstandard(ua-1) ---
-#set page(width: 150pt)
-#set figure(numbering: "I")
-
-We can clearly see that @fig-cylinder and
-@tab-complex are relevant in this context.
-
-#figure(
-  table(columns: 2)[a][b],
-  caption: [The basic table.],
-) <tab-basic>
-
-#figure(
-  pad(y: -6pt, image(alt: "Sketch of white standing cylinder", "/assets/images/cylinder.svg", height: 2cm)),
-  caption: [The basic shapes.],
-  numbering: "I",
-) <fig-cylinder>
-
-#figure(
-  table(columns: 3)[a][b][c][d][e][f],
-  caption: [The complex table.],
-) <tab-complex>
-
 --- figure-align paged ---
 #show figure: set align(start)
 #figure(
   rect[This is \ left],
   caption: [Start-aligned]
 )
-
---- figure-table paged ---
-// Testing figures with tables.
-#figure(
-  table(
-    columns: 2,
-    [Second cylinder],
-    image("/assets/images/cylinder.svg"),
-  ),
-  caption: "A table containing images."
-) <fig-image-in-table>
 
 --- figure-placement paged ---
 #set page(height: 160pt, columns: 2)
@@ -286,25 +252,3 @@ HI#footnote.entry(clearance: 2.5em)[There]
 // Test that figure caption separator is synthesized correctly.
 #show figure.caption: c => test(c.separator, [#": "])
 #figure(table[], caption: [This is a test caption])
-
---- issue-4966-figure-float-counter paged ---
-#let c = context counter(figure.where(kind: image)).display()
-#set align(center)
-
-#c
-
-#figure(
-  square(c),
-  placement: bottom,
-  caption: [A]
-)
-
-#c
-
-#figure(
-  circle(c),
-  placement: top,
-  caption: [B]
-)
-
-#c

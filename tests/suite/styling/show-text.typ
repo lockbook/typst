@@ -85,13 +85,6 @@ Oh, hello there!
 World
 - World
 
---- show-text-path-resolving paged ---
-// Test absolute path in layout phase.
-
-#show "GRAPH": image("/assets/images/graph.png")
-
-The GRAPH has nodes.
-
 --- show-set-text-order-adjacent-1 paged ---
 #show "He": set text(red)
 #show "ya": set text(blue)

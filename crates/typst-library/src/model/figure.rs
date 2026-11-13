@@ -19,8 +19,7 @@ use crate::layout::{
     VAlignment,
 };
 use crate::model::{Numbering, NumberingPattern, Outlinable, Refable, Supplement};
-use crate::text::{Lang, Locale, TextElem};
-use crate::visualize::ImageElem;
+use crate::text::{Lang, LocalName, Locale, TextElem};
 
 /// A figure with an optional caption.
 ///
@@ -119,7 +118,9 @@ use crate::visualize::ImageElem;
 /// AT will always read the figure at the point where it appears in the
 /// document, regardless of its @figure.placement[`placement`]. Put its markup
 /// where it would make the most sense in the reading order.
-#[elem(scope, Locatable, Tagged, Synthesize, Count, ShowSet, Refable, Outlinable)]
+#[elem(
+    scope, Locatable, Tagged, Synthesize, Count, ShowSet, LocalName, Refable, Outlinable
+)]
 pub struct FigureElem {
     /// The content of the figure. Often, an @image[image].
     #[required]
@@ -348,7 +349,7 @@ impl Synthesize for Packed<FigureElem> {
             elem.body
                 .query_first_naive(&Selector::can::<dyn Figurable>())
                 .map(|elem| FigureKind::Elem(elem.func()))
-                .unwrap_or_else(|| FigureKind::Elem(ImageElem::ELEM))
+                .unwrap_or_else(|| FigureKind::Elem(FigureElem::ELEM))
         });
 
         // Resolve the supplement.
@@ -413,6 +414,10 @@ impl Synthesize for Packed<FigureElem> {
 
         Ok(())
     }
+}
+
+impl LocalName for Packed<FigureElem> {
+    const KEY: &'static str = "figure";
 }
 
 impl ShowSet for Packed<FigureElem> {

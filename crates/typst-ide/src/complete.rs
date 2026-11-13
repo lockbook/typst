@@ -592,7 +592,6 @@ fn param_value_completions<'a>(
     } else if let Some(extensions) = path_completion(func, param) {
         ctx.file_completions_with_extensions(extensions);
     } else if func.name() == Some("figure") && param.name() == Some("body") {
-        ctx.snippet_completion("image", "image(\"${}\"),", "An image in a figure.");
         ctx.snippet_completion("table", "table(\n  ${}\n),", "A table in a figure.");
     }
 
@@ -604,9 +603,6 @@ fn param_value_completions<'a>(
 /// Returns which file extensions to complete for the given parameter if any.
 fn path_completion(func: &Func, param: &ParamInfo) -> Option<&'static [&'static str]> {
     Some(match (func.name(), param.name().unwrap_or_default()) {
-        (Some("image"), "source") => {
-            &["png", "jpg", "jpeg", "gif", "svg", "svgz", "webp", "pdf"]
-        }
         (Some("attach"), "path") if *func == typst::pdf::AttachElem::ELEM => &[],
         (None, "path") => &[],
         _ => return None,
@@ -1799,10 +1795,6 @@ mod tests {
             .must_include([q!("content/a.typ"), q!("content/b.typ"), q!("utils.typ")])
             .must_exclude([q!("assets/tiger.jpg")]);
 
-        test(&world, ("content/a.typ", -2))
-            .must_include([q!("../assets/tiger.jpg"), q!("../assets/rhino.png")])
-            .must_exclude([q!("../data/example.csv"), q!("b.typ")]);
-
         test(&world, ("content/c.typ", -2))
             .must_include([q!("../main.typ"), q!("a.typ"), q!("b.typ")])
             .must_exclude([q!("c.typ")]);
@@ -1816,7 +1808,6 @@ mod tests {
     #[test]
     fn test_autocomplete_figure_snippets() {
         let res = test("#figure()", -2);
-        res.at("image").must_apply_as("image(\"${}\"),");
         res.at("table").must_apply_as("table(\n  ${}\n),");
 
         test("#figure(cap)", -2).at("caption").must_apply_as("caption: [${}]");

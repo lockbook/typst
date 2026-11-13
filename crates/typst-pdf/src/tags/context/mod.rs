@@ -51,11 +51,6 @@ impl Tags {
         }
     }
 
-    pub fn push_leaf(&mut self, id: Identifier) {
-        let group = self.tree.groups.get_mut(self.tree.current());
-        group.push_leaf(id);
-    }
-
     pub fn push_text(&mut self, new_attrs: ResolvedTextAttrs, text_id: Identifier) {
         let group = self.tree.groups.get_mut(self.tree.current());
         group.push_text(new_attrs, text_id);

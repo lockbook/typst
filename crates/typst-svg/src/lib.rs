@@ -1,6 +1,5 @@
 //! Rendering of Typst documents into SVG images.
 
-mod image;
 mod paint;
 mod path;
 mod shape;
@@ -8,7 +7,6 @@ mod text;
 mod write;
 
 use comemo::Tracked;
-pub use image::{WebImage, convert_image_scaling};
 use indexmap::IndexMap;
 use rustc_hash::FxBuildHasher;
 use typst_library::model::{Destination, LateLinkResolver};
@@ -314,9 +312,6 @@ impl<'a> SVGRenderer<'a> {
                 FrameItem::Group(group) => self.render_group(svg, &state, group),
                 FrameItem::Text(text) => self.render_text(svg, &state, text),
                 FrameItem::Shape(shape, _) => self.render_shape(svg, &state, shape),
-                FrameItem::Image(image, size, _) => {
-                    self.render_image(svg, &state, image, size)
-                }
                 FrameItem::Link(dest, size) => self.render_link(svg, &state, dest, *size),
                 FrameItem::Tag(_) => {}
             };

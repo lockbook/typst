@@ -62,16 +62,6 @@ impl FontStyle {
     }
 }
 
-impl From<usvg::FontStyle> for FontStyle {
-    fn from(style: usvg::FontStyle) -> Self {
-        match style {
-            usvg::FontStyle::Normal => Self::Normal,
-            usvg::FontStyle::Italic => Self::Italic,
-            usvg::FontStyle::Oblique => Self::Oblique,
-        }
-    }
-}
-
 /// The weight of a font.
 #[derive(Debug, Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash)]
 #[derive(Serialize, Deserialize)]
@@ -149,12 +139,6 @@ impl Default for FontWeight {
 impl Display for FontWeight {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
         write!(f, "{}", self.0)
-    }
-}
-
-impl From<fontdb::Weight> for FontWeight {
-    fn from(weight: fontdb::Weight) -> Self {
-        Self::from_number(weight.0)
     }
 }
 
@@ -305,22 +289,6 @@ impl Display for FontStretch {
             write!(f, "{int_part}%")
         } else {
             write!(f, "{int_part}.{dec_part}%")
-        }
-    }
-}
-
-impl From<usvg::FontStretch> for FontStretch {
-    fn from(stretch: usvg::FontStretch) -> Self {
-        match stretch {
-            usvg::FontStretch::UltraCondensed => Self::ULTRA_CONDENSED,
-            usvg::FontStretch::ExtraCondensed => Self::EXTRA_CONDENSED,
-            usvg::FontStretch::Condensed => Self::CONDENSED,
-            usvg::FontStretch::SemiCondensed => Self::SEMI_CONDENSED,
-            usvg::FontStretch::Normal => Self::NORMAL,
-            usvg::FontStretch::SemiExpanded => Self::SEMI_EXPANDED,
-            usvg::FontStretch::Expanded => Self::EXPANDED,
-            usvg::FontStretch::ExtraExpanded => Self::EXTRA_EXPANDED,
-            usvg::FontStretch::UltraExpanded => Self::ULTRA_EXPANDED,
         }
     }
 }

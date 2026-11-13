@@ -27,19 +27,6 @@
 Neither #tex, \
 nor #xetex!
 
---- transform-rotate-and-scale paged ---
-// Test combination of scaling and rotation.
-#set page(height: 80pt)
-#align(center + horizon,
-  rotate(20deg, scale(70%, image("/assets/images/tiger.jpg")))
-)
-
---- transform-rotate-origin paged ---
-// Test setting rotation origin.
-#rotate(10deg, origin: top + left,
-  image("/assets/images/tiger.jpg", width: 50%)
-)
-
 --- transform-scale-origin paged ---
 // Test setting scaling origin.
 #let r = rect(width: 100pt, height: 10pt, fill: forest)
@@ -116,17 +103,6 @@ Hello #scaled[World]!\
 
 #set scale(reflow: true)
 Hello #scaled[World]!
-
---- transform-scale-abs-and-auto paged ---
-// Test scaling by absolute lengths and auto.
-#set page(width: 200pt, height: 200pt)
-#let cylinder = image("/assets/images/cylinder.svg")
-
-#cylinder
-#scale(x: 100pt, y: 50pt, reflow: true, cylinder)
-#scale(x: auto, y: 50pt, reflow: true, cylinder)
-#scale(x: 100pt, y: auto, reflow: true, cylinder)
-#scale(x: 150%, y: auto, reflow: true, cylinder)
 
 --- transform-skew paged ---
 // Test skewing along one axis.

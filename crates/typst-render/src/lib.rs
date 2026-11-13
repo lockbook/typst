@@ -1,6 +1,5 @@
 //! Rendering of Typst documents into raster images.
 
-mod image;
 mod paint;
 mod shape;
 mod text;
@@ -194,9 +193,6 @@ fn render_frame(canvas: &mut sk::Pixmap, state: State, frame: &Frame) {
             }
             FrameItem::Shape(shape, _) => {
                 shape::render_shape(canvas, state.pre_translate(*pos), shape);
-            }
-            FrameItem::Image(image, size, _) => {
-                image::render_image(canvas, state.pre_translate(*pos), image, *size);
             }
             FrameItem::Link(_, _) => {}
             FrameItem::Tag(_) => {}

@@ -295,10 +295,6 @@ fn build_group_tag(rs: &mut Resolver, group: &Group) -> Option<TagKind> {
         GroupKind::FigureWrapper(id) => rs.ctx.figures.get(*id).build_wrapper_tag()?,
         GroupKind::Figure(id, _, _) => rs.ctx.figures.get(*id).build_tag()?,
         GroupKind::FigureCaption(_, _) => Tag::Caption.into(),
-        GroupKind::Image(image, _, _) => {
-            let alt = image.alt.opt_ref().map(Into::into);
-            Tag::Figure(alt).with_placement(Some(kt::Placement::Block)).into()
-        }
         GroupKind::Formula(equation, _, _) => {
             let alt = equation.alt.opt_ref().map(Into::into);
             let placement = equation.block.val().then_some(kt::Placement::Block);

@@ -41,7 +41,6 @@ use typst_library::text::{
     HighlightElem, OverlineElem, RawElem, RawLine, StrikeElem, SubElem, SuperElem,
     UnderlineElem,
 };
-use typst_library::visualize::ImageElem;
 use typst_syntax::Span;
 
 use crate::PdfOptions;
@@ -254,7 +253,6 @@ fn visit_frame(tree: &mut TreeBuilder, frame: &Frame) -> SourceResult<()> {
             }
             FrameItem::Text(_) => (),
             FrameItem::Shape(..) => (),
-            FrameItem::Image(..) => (),
             FrameItem::Link(..) => (),
         }
     }
@@ -395,10 +393,6 @@ fn progress_tree_start(tree: &mut TreeBuilder, elem: &Content) -> GroupId {
     } else if let Some(_) = elem.to_packed::<FigureCaption>() {
         let bbox = tree.ctx.new_bbox();
         push_group(tree, elem, GroupKind::FigureCaption(bbox, None))
-    } else if let Some(image) = elem.to_packed::<ImageElem>() {
-        let lang = image.locale;
-        let bbox = tree.ctx.new_bbox();
-        push_group(tree, elem, GroupKind::Image(image.clone(), bbox, lang))
     } else if let Some(equation) = elem.to_packed::<EquationElem>() {
         let lang = equation.locale;
         let bbox = tree.ctx.new_bbox();

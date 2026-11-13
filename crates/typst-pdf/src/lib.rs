@@ -2,7 +2,6 @@
 
 mod attach;
 mod convert;
-mod image;
 mod link;
 mod metadata;
 mod outline;
