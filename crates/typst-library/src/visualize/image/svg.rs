@@ -398,9 +398,6 @@ impl<'a> ImageResolver<'a> {
                         VectorFormat::Svg => {
                             Err("SVG images are not supported yet".into())
                         }
-                        VectorFormat::Pdf => {
-                            Err("PDF documents are not supported".into())
-                        }
                     },
                     Some(ImageFormat::Raster(raster_format)) => match raster_format {
                         RasterFormat::Exchange(exchange_format) => {

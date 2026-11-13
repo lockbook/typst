@@ -618,10 +618,6 @@ b68fe0d021f382a465a2b8fa087a6f06 hyphenate-pt-repeat-hyphen-hyphenate-true-with-
 364849ef231ce5da69cd5c34669fae09 image-jpg
 e2c28abda075f98a1be7605f762b4291 image-jump-to-next-page
 07039aa01c420df97eccf75a61fe6c2d image-natural-dpi-sizing
-73695cb9ba910c56ab3ad05489d7bfff image-pdf-base14-fonts
-512b7fb1ea82c70fc1f0ed5c2de37385 image-pdf-basic
-b6648825c98d9c8a22a9bda16ca03bd9 image-pdf-complex
-ab0876e21759fffe0a094f141db3dad4 image-pdf-multiple-pages
 f692b45298c819bc72fdbd925441235a image-pixmap-luma8
 d7745ce3cafb9fe332e6dfa398bddc76 image-pixmap-lumaa8
 9f5604c88f6f0b71e7c52aef08adf76e image-pixmap-rgb8

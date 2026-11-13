@@ -160,16 +160,6 @@ A #box(image("/assets/images/tiger.jpg", height: 1cm, width: 80%)) B
   ```.text
 ))
 
---- image-svg-linked-pdf paged ---
-// Error: 1:8-7:2 failed to load linked image ../../../assets/images/diagrams.pdf in SVG (PDF documents are not supported)
-#image(bytes(
-  ```
-  <svg xmlns="http://www.w3.org/2000/svg">
-    <image href="../../../assets/images/diagrams.pdf" />
-  </svg>
-  ```.text
-))
-
 --- image-svg-linked-csv paged ---
 // Error: 1:8-7:2 failed to load linked image ../../../assets/data/bad.csv in SVG (unknown image format)
 #image(bytes(
@@ -375,7 +365,7 @@ A #box(image("/assets/images/tiger.jpg", height: 1cm, width: 80%)) B
 --- image-png-but-pixmap-format eval ---
 #image(
   read("/assets/images/tiger.jpg", encoding: none),
-  // Error: 11-18 expected "png", "jpg", "gif", "webp", dictionary, "svg", "pdf", or auto
+  // Error: 11-18 expected "png", "jpg", "gif", "webp", dictionary, "svg", or auto
   format: "rgba8",
 )
 
@@ -413,26 +403,6 @@ A #box(image("/assets/images/tiger.jpg", height: 1cm, width: 80%)) B
   // transform to apply the orientation), so it's worth testing that separately.
   `JPEG`, ..rotations.map(v => with-rotation("/assets/images/f2t.jpg", 0x31, v)),
 )
-
---- image-pdf-basic paged html ---
-#image("/assets/images/star.pdf")
-
---- image-pdf-complex paged tolerance(2) ---
-#image("/assets/images/matplotlib.pdf")
-
---- image-pdf-multiple-pages paged ---
-#image("/assets/images/diagrams.pdf", page: 1)
-#image("/assets/images/diagrams.pdf", page: 3)
-#image("/assets/images/diagrams.pdf", page: 2)
-
---- image-pdf-base14-fonts paged ---
-// Test PDF base 14 fonts.
-#image("/assets/images/base14-fonts.pdf")
-
---- image-pdf-invalid-page paged ---
-// Error: 8-39 failed to load PDF (page 2 does not exist in assets/images/matplotlib.pdf)
-// Hint: 8-39 the document only has 1 page
-#image("/assets/images/matplotlib.pdf", page: 2)
 
 --- issue-6869-image-zero-sized paged ---
 // Primarily to ensure that it does not crash in PDF export.

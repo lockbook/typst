@@ -1,16 +1,10 @@
-use hayro::RenderCache;
-use hayro::RenderSettings;
-use hayro::hayro_interpret::InterpreterSettings;
-use hayro::hayro_interpret::font::{FontData, FontQuery, StandardFont};
-use hayro::vello_cpu::color::palette::css::TRANSPARENT;
 use image::imageops::FilterType;
 use image::{GenericImageView, Rgba};
 use std::sync::Arc;
 use tiny_skia as sk;
-use tiny_skia::IntSize;
 use typst_library::foundations::Smart;
 use typst_library::layout::Size;
-use typst_library::visualize::{Image, ImageKind, ImageScaling, PdfImage};
+use typst_library::visualize::{Image, ImageKind, ImageScaling};
 
 use crate::{AbsExt, State};
 
@@ -106,59 +100,7 @@ fn build_texture(image: &Image, w: u32, h: u32) -> Option<Arc<sk::Pixmap>> {
             resvg::render(tree, ts, &mut texture.as_mut());
             texture
         }
-        ImageKind::Pdf(pdf) => build_pdf_texture(pdf, w, h)?,
     };
 
     Some(Arc::new(texture))
-}
-
-// Keep this in sync with `typst-svg`!
-fn build_pdf_texture(pdf: &PdfImage, w: u32, h: u32) -> Option<sk::Pixmap> {
-    let select_standard_font = move |font: StandardFont| -> Option<(FontData, u32)> {
-        let bytes = match font {
-            StandardFont::Helvetica => typst_assets::pdf::SANS,
-            StandardFont::HelveticaBold => typst_assets::pdf::SANS_BOLD,
-            StandardFont::HelveticaOblique => typst_assets::pdf::SANS_ITALIC,
-            StandardFont::HelveticaBoldOblique => typst_assets::pdf::SANS_BOLD_ITALIC,
-            StandardFont::Courier => typst_assets::pdf::FIXED,
-            StandardFont::CourierBold => typst_assets::pdf::FIXED_BOLD,
-            StandardFont::CourierOblique => typst_assets::pdf::FIXED_ITALIC,
-            StandardFont::CourierBoldOblique => typst_assets::pdf::FIXED_BOLD_ITALIC,
-            StandardFont::TimesRoman => typst_assets::pdf::SERIF,
-            StandardFont::TimesBold => typst_assets::pdf::SERIF_BOLD,
-            StandardFont::TimesItalic => typst_assets::pdf::SERIF_ITALIC,
-            StandardFont::TimesBoldItalic => typst_assets::pdf::SERIF_BOLD_ITALIC,
-            StandardFont::ZapfDingBats => typst_assets::pdf::DING_BATS,
-            StandardFont::Symbol => typst_assets::pdf::SYMBOL,
-        };
-        Some((Arc::new(bytes), 0))
-    };
-
-    let interpreter_settings = InterpreterSettings {
-        font_resolver: Arc::new(move |query| match query {
-            FontQuery::Standard(s) => select_standard_font(*s),
-            FontQuery::Fallback(f) => select_standard_font(f.pick_standard_font()),
-        }),
-        // Fairly niche and enabling hayro's embedded cmap would add a
-        // considerable amount of data.
-        cmap_resolver: Arc::new(|_| None),
-        warning_sink: Arc::new(|_| {}),
-        // We want to render like it prints, so no annotations.
-        render_annotations: false,
-    };
-
-    let render_settings = RenderSettings {
-        x_scale: w as f32 / pdf.width(),
-        y_scale: h as f32 / pdf.height(),
-        width: Some(w as u16),
-        height: Some(h as u16),
-        bg_color: TRANSPARENT,
-    };
-
-    let cache = RenderCache::new();
-    let hayro_pix =
-        hayro::render(pdf.page(), &cache, &interpreter_settings, &render_settings);
-
-    let bytes: Vec<u8> = bytemuck::cast_vec(hayro_pix.take());
-    sk::Pixmap::from_vec(bytes, IntSize::from_wh(w, h)?)
 }

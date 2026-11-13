@@ -13,7 +13,6 @@ keywords = { workspace = true }
 readme = { workspace = true }
 
 [dependencies]
-typst-assets = { workspace = true }
 typst-layout = { workspace = true }
 typst-library = { workspace = true }
 typst-macros = { workspace = true }
@@ -23,8 +22,6 @@ base64 = { workspace = true }
 comemo = { workspace = true }
 ecow = { workspace = true }
 flate2 = { workspace = true }
-hayro = { workspace = true }
-hayro-svg = { workspace = true }
 image = { workspace = true }
 indexmap = { workspace = true }
 itoa = { workspace = true }

@@ -1,15 +1,10 @@
-use std::sync::Arc;
-
 use base64::Engine;
 use ecow::{EcoString, eco_format};
-use hayro::hayro_interpret::InterpreterSettings;
-use hayro::hayro_interpret::font::{FontData, FontQuery, StandardFont};
-use hayro_svg::{RenderCache, SvgRenderSettings};
 use image::{ImageEncoder, codecs::png::PngEncoder};
 use typst_library::foundations::{Bytes, Smart};
 use typst_library::layout::{Abs, Axes};
 use typst_library::visualize::{
-    ExchangeFormat, Image, ImageKind, ImageScaling, PdfImage, RasterFormat,
+    ExchangeFormat, Image, ImageKind, ImageScaling, RasterFormat,
 };
 
 use crate::write::{SvgElem, SvgTransform, SvgWrite};
@@ -123,9 +118,6 @@ impl WebImage {
                 }),
             },
             ImageKind::Svg(svg) => (WebImageFormat::Svg, svg.data().clone()),
-            ImageKind::Pdf(pdf) => {
-                (WebImageFormat::Svg, Bytes::from_string(pdf_to_svg(pdf)))
-            }
         };
         Self { format, data }
     }
@@ -140,45 +132,4 @@ impl WebImage {
         url.push_str(&data);
         url
     }
-}
-
-// Keep this in sync with `typst-png`!
-fn pdf_to_svg(pdf: &PdfImage) -> String {
-    let select_standard_font = move |font: StandardFont| -> Option<(FontData, u32)> {
-        let bytes = match font {
-            StandardFont::Helvetica => typst_assets::pdf::SANS,
-            StandardFont::HelveticaBold => typst_assets::pdf::SANS_BOLD,
-            StandardFont::HelveticaOblique => typst_assets::pdf::SANS_ITALIC,
-            StandardFont::HelveticaBoldOblique => typst_assets::pdf::SANS_BOLD_ITALIC,
-            StandardFont::Courier => typst_assets::pdf::FIXED,
-            StandardFont::CourierBold => typst_assets::pdf::FIXED_BOLD,
-            StandardFont::CourierOblique => typst_assets::pdf::FIXED_ITALIC,
-            StandardFont::CourierBoldOblique => typst_assets::pdf::FIXED_BOLD_ITALIC,
-            StandardFont::TimesRoman => typst_assets::pdf::SERIF,
-            StandardFont::TimesBold => typst_assets::pdf::SERIF_BOLD,
-            StandardFont::TimesItalic => typst_assets::pdf::SERIF_ITALIC,
-            StandardFont::TimesBoldItalic => typst_assets::pdf::SERIF_BOLD_ITALIC,
-            StandardFont::ZapfDingBats => typst_assets::pdf::DING_BATS,
-            StandardFont::Symbol => typst_assets::pdf::SYMBOL,
-        };
-        Some((Arc::new(bytes), 0))
-    };
-
-    let interpreter_settings = InterpreterSettings {
-        font_resolver: Arc::new(move |query| match query {
-            FontQuery::Standard(s) => select_standard_font(*s),
-            FontQuery::Fallback(f) => select_standard_font(f.pick_standard_font()),
-        }),
-        cmap_resolver: Arc::new(|_| None),
-        warning_sink: Arc::new(|_| {}),
-        render_annotations: false,
-    };
-
-    let cache = RenderCache::new();
-    hayro_svg::convert(
-        pdf.page(),
-        &cache,
-        &interpreter_settings,
-        &SvgRenderSettings { bg_color: [0, 0, 0, 0] },
-    )
 }

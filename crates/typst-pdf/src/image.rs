@@ -4,14 +4,13 @@ use std::sync::{Arc, OnceLock};
 use ecow::eco_format;
 use image::{DynamicImage, EncodableLayout, GenericImageView, Rgba};
 use krilla::image::{BitsPerComponent, CustomImage, ImageColorspace};
-use krilla::pdf::PdfDocument;
 use krilla::surface::Surface;
 use krilla_svg::{SurfaceExt, SvgSettings};
 use typst_library::diag::{At, SourceResult};
 use typst_library::foundations::Smart;
 use typst_library::layout::{Abs, Angle, Ratio, Size, Transform};
 use typst_library::visualize::{
-    ExchangeFormat, Image, ImageKind, ImageScaling, PdfImage, RasterFormat, RasterImage,
+    ExchangeFormat, Image, ImageKind, ImageScaling, RasterFormat, RasterImage,
 };
 use typst_syntax::Span;
 use typst_utils::defer;
@@ -68,11 +67,6 @@ pub(crate) fn handle_image(
                     size,
                     SvgSettings { embed_text: true, ..Default::default() },
                 );
-            }
-        }
-        ImageKind::Pdf(pdf) => {
-            if let Some(size) = size.to_krilla() {
-                surface.draw_pdf_page(&convert_pdf(pdf), size, pdf.page_index());
             }
         }
     }
@@ -208,11 +202,6 @@ fn convert_raster(
     } else {
         krilla::image::Image::from_custom(PdfRasterImage::new(raster), interpolate)
     }
-}
-
-#[comemo::memoize]
-fn convert_pdf(pdf: &PdfImage) -> PdfDocument {
-    PdfDocument::new(pdf.document().pdf().clone())
 }
 
 fn exif_transform(image: &RasterImage, size: Size) -> (Transform, Size) {

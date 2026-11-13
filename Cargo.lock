@@ -1084,17 +1084,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "hayro-write"
-version = "0.7.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a0b3db92c4917aad24ff30d61413a9a7509ae88b27aee1ae34eff881e1d2723a"
-dependencies = [
- "flate2",
- "hayro-syntax",
- "pdf-writer",
-]
-
-[[package]]
 name = "heck"
 version = "0.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1494,7 +1483,6 @@ dependencies = [
  "flate2",
  "float-cmp",
  "gif",
- "hayro-write",
  "image-webp",
  "imagesize",
  "indexmap",
@@ -3350,7 +3338,6 @@ dependencies = [
  "fontdb",
  "glidesort",
  "hayagriva",
- "hayro-syntax",
  "icu_properties",
  "image",
  "indexmap",
@@ -3457,14 +3444,12 @@ version = "0.15.1"
 dependencies = [
  "bytemuck",
  "comemo",
- "hayro",
  "image",
  "libm",
  "pixglyph",
  "resvg",
  "tiny-skia",
  "ttf-parser",
- "typst-assets",
  "typst-layout",
  "typst-library",
  "typst-macros",
@@ -3480,15 +3465,12 @@ dependencies = [
  "comemo",
  "ecow",
  "flate2",
- "hayro",
- "hayro-svg",
  "image",
  "indexmap",
  "itoa",
  "rustc-hash",
  "ryu",
  "ttf-parser",
- "typst-assets",
  "typst-layout",
  "typst-library",
  "typst-macros",
