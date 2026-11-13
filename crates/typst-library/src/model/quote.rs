@@ -1,12 +1,8 @@
-use typst_syntax::Span;
-
 use crate::foundations::{
-    Content, Depth, Label, NativeElement, Packed, ShowSet, Smart, StyleChain, Styles,
-    cast, elem,
+    Content, Depth, Packed, ShowSet, Smart, StyleChain, Styles, cast, elem,
 };
 use crate::introspection::{Locatable, Tagged};
 use crate::layout::{BlockElem, Em, PadElem};
-use crate::model::{CitationForm, CiteElem};
 use crate::text::{SmartQuotes, SpaceElem, TextElem};
 
 /// Displays a quote alongside an optional attribution.
@@ -89,9 +85,9 @@ pub struct QuoteElem {
     /// ```
     pub quotes: Smart<bool>,
 
-    /// The attribution of this quote, usually the author or source. Can be a
-    /// label pointing to a bibliography entry or any content. By default only
-    /// displayed for block quotes, but can be changed using a `{show}` rule.
+    /// The attribution of this quote, usually the author or source. By default
+    /// only displayed for block quotes, but can be changed using a `{show}`
+    /// rule.
     ///
     /// ```example
     /// #quote(attribution: [René Descartes])[
@@ -108,19 +104,6 @@ pub struct QuoteElem {
     /// )[
     ///   Compose papers faster
     /// ]
-    ///
-    /// #set quote(block: true)
-    ///
-    /// #quote(attribution: <tolkien54>)[
-    ///   You cannot pass... I am a servant
-    ///   of the Secret Fire, wielder of the
-    ///   flame of Anor. You cannot pass. The
-    ///   dark fire will not avail you, flame
-    ///   of Udûn. Go back to the Shadow! You
-    ///   cannot pass.
-    /// ]
-    ///
-    /// #bibliography("works.bib", style: "apa")
     /// ```
     pub attribution: Option<Attribution>,
 
@@ -158,21 +141,16 @@ impl QuoteElem {
 #[derive(Debug, Clone, PartialEq, Hash)]
 pub enum Attribution {
     Content(Content),
-    Label(Label),
 }
 
 impl Attribution {
-    /// Realize as an em dash followed by text or a citation.
-    pub fn realize(&self, span: Span) -> Content {
+    /// Realize as an em dash followed by text.
+    pub fn realize(&self) -> Content {
         Content::sequence([
             TextElem::packed('—'),
             SpaceElem::shared().clone(),
             match self {
                 Attribution::Content(content) => content.clone(),
-                Attribution::Label(label) => CiteElem::new(*label)
-                    .with_form(Some(CitationForm::Prose))
-                    .pack()
-                    .spanned(span),
             },
         ])
     }
@@ -182,10 +160,8 @@ cast! {
     Attribution,
     self => match self {
         Self::Content(content) => content.into_value(),
-        Self::Label(label) => label.into_value(),
     },
     content: Content => Self::Content(content),
-    label: Label => Self::Label(label),
 }
 
 impl ShowSet for Packed<QuoteElem> {

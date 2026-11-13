@@ -1,7 +1,6 @@
 figure = ຮູບທີ
 table = ຕາຕະລາງທີ
 # equation =
-bibliography = ເອກະສານອ້າງອີງ
 # heading =
 outline = ສາລະບານ
 # raw =

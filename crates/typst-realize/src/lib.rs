@@ -29,8 +29,8 @@ use typst_library::layout::{
 };
 use typst_library::math::{EquationElem, Mathy};
 use typst_library::model::{
-    CiteElem, CiteGroup, DocumentElem, EnumElem, ListElem, ListItemLike, ListLike,
-    ParElem, ParbreakElem, TermsElem,
+    DocumentElem, EnumElem, ListElem, ListItemLike, ListLike, ParElem, ParbreakElem,
+    TermsElem,
 };
 use typst_library::routines::{Arenas, FragmentKind, Pair, RealizationKind};
 use typst_library::text::{LinebreakElem, SmartQuoteElem, SpaceElem, TextElem};
@@ -1008,13 +1008,13 @@ const MAX_GROUP_NESTING: usize = 3;
 static BUNDLE_RULES: &[&GroupingRule] = &[];
 
 /// Grouping rules used in normal realization.
-static FLOW_RULES: &[&GroupingRule] = &[&TEXTUAL, &PAR, &CITES, &LIST, &ENUM, &TERMS];
+static FLOW_RULES: &[&GroupingRule] = &[&TEXTUAL, &PAR, &LIST, &ENUM, &TERMS];
 
 /// Grouping rules used in paragraph realization.
-static PAR_RULES: &[&GroupingRule] = &[&TEXTUAL, &CITES, &LIST, &ENUM, &TERMS];
+static PAR_RULES: &[&GroupingRule] = &[&TEXTUAL, &LIST, &ENUM, &TERMS];
 
 /// Grouping rules used in math realization.
-static MATH_RULES: &[&GroupingRule] = &[&CITES, &LIST, &ENUM, &TERMS];
+static MATH_RULES: &[&GroupingRule] = &[&LIST, &ENUM, &TERMS];
 
 /// Groups adjacent textual elements for text show rule application.
 static TEXTUAL: GroupingRule = GroupingRule {
@@ -1070,26 +1070,6 @@ static PAR: GroupingRule = GroupingRule {
     },
     interrupt: |elem| elem == ParElem::ELEM || elem == AlignElem::ELEM,
     finish: finish_par,
-};
-
-/// Collects `CiteElem`s into `CiteGroup`s.
-static CITES: GroupingRule = GroupingRule {
-    priority: 2,
-    tags: false,
-    effect: |content| {
-        let elem = content.elem();
-        if elem == CiteElem::ELEM {
-            GroupingEffect::Trigger
-        } else if elem == SpaceElem::ELEM {
-            GroupingEffect::Inner
-        } else {
-            GroupingEffect::Interrupt
-        }
-    },
-    interrupt: |elem| {
-        elem == CiteGroup::ELEM || elem == ParElem::ELEM || elem == AlignElem::ELEM
-    },
-    finish: finish_cites,
 };
 
 /// Builds a `ListElem` from grouped `ListItems`s.
@@ -1201,20 +1181,6 @@ fn finish_par(mut grouped: Grouped) -> SourceResult<()> {
     // Create and visit the paragraph.
     let s = grouped.end();
     let elem = ParElem::new(body).pack().spanned(span);
-    visit(s, s.store(elem), trunk)
-}
-
-/// Builds the `CiteGroup` from `CiteElem`s.
-fn finish_cites(grouped: Grouped) -> SourceResult<()> {
-    // Collect the children.
-    let elems = grouped.get();
-    let span = select_span(elems);
-    let trunk = elems[0].1;
-    let children = elems.iter().map(|(c, _)| (**c).clone()).collect();
-
-    // Create and visit the citation group.
-    let s = grouped.end();
-    let elem = CiteGroup::new(children).pack().spanned(span);
     visit(s, s.store(elem), trunk)
 }
 

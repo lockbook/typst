@@ -292,7 +292,6 @@ fn build_group_tag(rs: &mut Resolver, group: &Group) -> Option<TagKind> {
         GroupKind::ListItemBody(_) => Tag::LBody.into(),
         GroupKind::TermsItemLabel(_) => Tag::Lbl.into(),
         GroupKind::TermsItemBody(_, _) => Tag::LBody.into(),
-        GroupKind::BibEntry(_) => Tag::BibEntry.into(),
         GroupKind::FigureWrapper(id) => rs.ctx.figures.get(*id).build_wrapper_tag()?,
         GroupKind::Figure(id, _, _) => rs.ctx.figures.get(*id).build_tag()?,
         GroupKind::FigureCaption(_, _) => Tag::Caption.into(),

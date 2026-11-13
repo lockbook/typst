@@ -26,41 +26,6 @@ And I quote: #quote(attribution: [René Descartes])[cogito, ergo sum].
 #quote(lines(3))
 #lines(3)
 
---- quote-inline paged ---
-// Inline citation
-#set text(8pt)
-#quote(attribution: <tolkien54>)[In a hole in the ground there lived a hobbit.]
-
-#show bibliography: none
-#bibliography("/assets/bib/works.bib")
-
---- quote-cite-format-label-or-numeric paged ---
-// Citation-format: label or numeric
-#set text(8pt)
-#set quote(block: true)
-#quote(attribution: <tolkien54>)[In a hole in the ground there lived a hobbit.]
-
-#show bibliography: none
-#bibliography("/assets/bib/works.bib", style: "ieee")
-
---- quote-cite-format-note paged ---
-// Citation-format: note
-#set text(8pt)
-#set quote(block: true)
-#quote(attribution: <tolkien54>)[In a hole in the ground there lived a hobbit.]
-
-#show bibliography: none
-#bibliography("/assets/bib/works.bib", style: "chicago-shortened-notes")
-
---- quote-cite-format-author-date paged ---
-// Citation-format: author-date or author
-#set text(8pt)
-#set quote(block: true)
-#quote(attribution: <tolkien54>)[In a hole in the ground there lived a hobbit.]
-
-#show bibliography: none
-#bibliography("/assets/bib/works.bib", style: "apa")
-
 --- quote-nesting paged ---
 // Test quote selection.
 #set page(width: auto)

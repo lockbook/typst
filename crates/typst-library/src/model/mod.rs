@@ -1,8 +1,6 @@
 //! Structuring elements that define the document model.
 
 mod asset;
-mod bibliography;
-mod cite;
 mod divider;
 mod document;
 mod emph;
@@ -25,8 +23,6 @@ mod terms;
 mod title;
 
 pub use self::asset::*;
-pub use self::bibliography::*;
-pub use self::cite::*;
 pub use self::divider::*;
 pub use self::document::*;
 pub use self::emph::*;
@@ -72,8 +68,6 @@ pub fn define(global: &mut Scope, features: &Features) {
     global.define_elem::<FootnoteElem>();
     global.define_elem::<OutlineElem>();
     global.define_elem::<RefElem>();
-    global.define_elem::<CiteElem>();
-    global.define_elem::<BibliographyElem>();
     global.define_elem::<TableElem>();
     global.define_func::<numbering>();
     global.reset_category();

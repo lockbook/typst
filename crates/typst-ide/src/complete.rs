@@ -615,9 +615,6 @@ fn path_completion(func: &Func, param: &ParamInfo) -> Option<&'static [&'static 
         (Some("toml"), "source") => &["toml"],
         (Some("xml"), "source") => &["xml"],
         (Some("yaml"), "source") => &["yml", "yaml"],
-        (Some("bibliography"), "sources") => &["bib", "yml", "yaml"],
-        (Some("bibliography"), "style") => &["csl"],
-        (Some("cite"), "style") => &["csl"],
         (Some("raw"), "syntaxes") => &["sublime-syntax"],
         (Some("raw"), "theme") => &["tmtheme"],
         (Some("attach"), "path") if *func == typst::pdf::AttachElem::ELEM => &[],
@@ -1092,11 +1089,6 @@ impl<'a> CompletionContext<'a> {
         }
     }
 
-    /// A small window of context before the cursor.
-    fn before_window(&self, size: usize) -> &str {
-        Scanner::new(self.before).get(self.cursor.saturating_sub(size)..self.cursor)
-    }
-
     /// Add a prefix and suffix to all applications.
     fn enrich(&mut self, prefix: &str, suffix: &str) {
         for Completion { label, apply, .. } in &mut self.completions {
@@ -1219,23 +1211,14 @@ impl<'a> CompletionContext<'a> {
     /// Add completions for labels and references.
     fn label_completions(&mut self) {
         let Some(output) = self.output else { return };
-        let (labels, split) = analyze_labels(output);
+        let labels = analyze_labels(output);
 
         let head = &self.text[..self.from];
         let at = head.ends_with('@');
         let open = !at && !head.ends_with('<');
         let close = !at && !self.after.starts_with('>');
-        let citation = !at && self.before_window(15).contains("cite");
 
-        let (skip, take) = if at {
-            (0, usize::MAX)
-        } else if citation {
-            (split, usize::MAX)
-        } else {
-            (0, split)
-        };
-
-        for (label, detail) in labels.into_iter().skip(skip).take(take) {
+        for (label, detail) in labels {
             self.completions.push(Completion {
                 kind: CompletionKind::Label,
                 apply: (open || close).then(|| {
@@ -1768,25 +1751,6 @@ mod tests {
     #[test]
     fn test_autocomplete_before_window_char_boundary() {
         test("😀😀     #text(font: \"\")", -3);
-    }
-
-    /// Ensure that autocompletion for `#cite(|)` completes bibligraphy labels,
-    /// but no other labels.
-    #[test]
-    fn test_autocomplete_cite_function() {
-        // First compile a working file to get a document.
-        let mut world =
-            TestWorld::new("#bibliography(\"works.bib\") <bib>").with_asset("works.bib");
-        let doc = typst::compile::<PagedDocument>(&world).output.ok();
-
-        // Then, add the invalid `#cite` call. Had the document been invalid
-        // initially, we would have no populated document to autocomplete with.
-        let end = world.main.text().len();
-        world.main.edit(end..end, " #cite()");
-
-        test_with_doc(&world, -2, doc.as_ref(), true)
-            .must_include(["netwok", "glacier-melt", "supplement"])
-            .must_exclude(["bib"]);
     }
 
     #[test]

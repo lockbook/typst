@@ -47,15 +47,6 @@ $ A = 1 $ <eq2>
 #set ref(supplement: none)
 @fig1, @fig2, @eq1, @eq2
 
---- ref-ambiguous paged ---
-// Test ambiguous reference.
-= Introduction <arrgh>
-
-// Error: 1-7 label `<arrgh>` occurs both in the document and a bibliography
-// Hint: 1-7 change either the heading's label or the bibliography key to resolve the ambiguity
-@arrgh
-#bibliography("/assets/bib/works.bib")
-
 --- ref-form-page paged ---
 #set page(numbering: "1")
 
@@ -67,20 +58,6 @@ See #ref(<setup>, form: "page").
 == Setup <setup>
 Text seen on #ref(<text>, form: "page").
 Text seen on #ref(<text>, form: "page", supplement: "Page").
-
---- ref-form-page-unambiguous paged ---
-// Test that page reference is not ambiguous.
-#set page(numbering: "1")
-
-= Introduction <arrgh>
-
-#ref(<arrgh>, form: "page")
-#bibliography("/assets/bib/works.bib")
-
---- ref-form-page-bibliography paged ---
-// Error: 2-28 label `<quark>` does not exist in the document
-#ref(<quark>, form: "page")
-#bibliography("/assets/bib/works.bib")
 
 --- issue-4536-non-whitespace-before-ref paged empty ---
 // Test reference with non-whitespace before it.

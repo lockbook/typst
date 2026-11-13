@@ -352,15 +352,6 @@ fn progress_tree_start(tree: &mut TreeBuilder, elem: &Content) -> GroupId {
                 let id = tree.ctx.outlines.push(OutlineCtx::new());
                 push_group(tree, elem, GroupKind::Outline(id, None))
             }
-            PdfMarkerTagKind::Bibliography(numbered) => {
-                let numbering =
-                    if *numbered { ListNumbering::Decimal } else { ListNumbering::None };
-                let id = tree.ctx.lists.push(ListCtx::new());
-                push_group(tree, elem, GroupKind::List(id, numbering, None))
-            }
-            PdfMarkerTagKind::BibEntry => {
-                push_group(tree, elem, GroupKind::BibEntry(None))
-            }
             PdfMarkerTagKind::ListItemLabel => {
                 push_group(tree, elem, GroupKind::ListItemLabel(None))
             }

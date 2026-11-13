@@ -3,31 +3,30 @@ use ecow::{EcoVec, eco_format};
 use smallvec::smallvec;
 use typst_library::diag::{At, SourceResult, bail};
 use typst_library::foundations::{
-    Content, Context, NativeElement, NativeRuleMap, Packed, Resolve, ShowFn, Smart,
-    StyleChain, Synthesize, Target, dict,
+    Content, Context, NativeElement, NativeRuleMap, Resolve, ShowFn, Smart, StyleChain,
+    Target, dict,
 };
 use typst_library::introspection::{Counter, Locator, LocatorLink};
 use typst_library::layout::{
     Abs, AlignElem, Alignment, Axes, BlockBody, BlockElem, ColumnsElem, Em,
-    FixedAlignment, GridCell, GridChild, GridElem, GridItem, HAlignment, HElem, HideElem,
-    InlineElem, LayoutElem, Length, MoveElem, OuterVAlignment, PadElem, PageElem,
-    PlaceElem, PlacementScope, Region, Rel, RepeatElem, RotateElem, ScaleElem, Sides,
-    Size, Sizing, SkewElem, Spacing, StackChild, StackElem, TrackSizings, VElem,
+    FixedAlignment, GridCell, GridElem, HAlignment, HElem, HideElem, InlineElem,
+    LayoutElem, Length, MoveElem, OuterVAlignment, PadElem, PageElem, PlaceElem,
+    PlacementScope, Region, Rel, RepeatElem, RotateElem, ScaleElem, Sides, Size,
+    SkewElem, Spacing, StackChild, StackElem, VElem,
 };
 use typst_library::math::EquationElem;
 use typst_library::model::{
-    Attribution, BibliographyElem, CiteElem, CiteGroup, CslIndentElem, CslLightElem,
     Destination, DirectLinkElem, DividerElem, EmphElem, EnumElem, FigureCaption,
     FigureElem, FootnoteElem, FootnoteEntry, HeadingElem, LinkElem, LinkMarker, ListElem,
     OutlineElem, OutlineEntry, ParElem, ParbreakElem, QuoteElem, RefElem, StrongElem,
-    TableCell, TableElem, TermsElem, TitleElem, Works,
+    TableCell, TableElem, TermsElem, TitleElem,
 };
 use typst_library::pdf::{ArtifactElem, ArtifactKind, AttachElem, PdfMarkerTag};
 use typst_library::text::{
     DecoLine, Decoration, HighlightElem, ItalicToggle, LinebreakElem, LocalName,
     OverlineElem, RawElem, RawLine, ScriptKind, ShiftSettings, Smallcaps, SmallcapsElem,
-    SmartQuoteElem, SmartQuotes, SpaceElem, StrikeElem, SubElem, SuperElem, TextElem,
-    TextSize, UnderlineElem, WeightDelta,
+    SmartQuoteElem, SmartQuotes, StrikeElem, SubElem, SuperElem, TextElem, TextSize,
+    UnderlineElem, WeightDelta,
 };
 use typst_library::visualize::{
     CircleElem, CurveElem, EllipseElem, ImageElem, LineElem, PolygonElem, RectElem,
@@ -59,10 +58,6 @@ pub fn register(rules: &mut NativeRuleMap) {
     rules.register(Paged, OUTLINE_RULE);
     rules.register(Paged, OUTLINE_ENTRY_RULE);
     rules.register(Paged, REF_RULE);
-    rules.register(Paged, CITE_GROUP_RULE);
-    rules.register(Paged, BIBLIOGRAPHY_RULE);
-    rules.register(Paged, CSL_LIGHT_RULE);
-    rules.register(Paged, CSL_INDENT_RULE);
     rules.register(Paged, TABLE_RULE);
     rules.register(Paged, TABLE_CELL_RULE);
 
@@ -369,14 +364,10 @@ const QUOTE_RULE: ShowFn<QuoteElem> = |elem, _, styles| {
             let gap = Spacing::Rel(Em::new(0.9).into());
             let v = VElem::new(gap).with_weak(true).pack();
             realized += v;
-            realized +=
-                BlockElem::packed(attribution.realize(span)).aligned(Alignment::END);
+            realized += BlockElem::packed(attribution.realize()).aligned(Alignment::END);
         }
 
         realized = PadElem::new(realized).pack();
-    } else if let Some(Attribution::Label(label)) = attribution {
-        realized += SpaceElem::shared().clone();
-        realized += CiteElem::new(*label).pack().spanned(span);
     }
 
     Ok(realized)
@@ -446,82 +437,6 @@ const OUTLINE_ENTRY_RULE: ShowFn<OutlineEntry> = |elem, engine, styles| {
 };
 
 const REF_RULE: ShowFn<RefElem> = |elem, engine, styles| elem.realize(engine, styles);
-
-const CITE_GROUP_RULE: ShowFn<CiteGroup> = |elem, engine, _| elem.realize(engine);
-
-const BIBLIOGRAPHY_RULE: ShowFn<BibliographyElem> = |elem, engine, styles| {
-    const COLUMN_GUTTER: Em = Em::new(0.65);
-    const INDENT: Em = Em::new(1.5);
-
-    let loc = elem.location().unwrap();
-    let span = elem.span();
-
-    let mut seq = vec![];
-    seq.extend(elem.realize_title(styles));
-
-    let works = Works::generate(engine, elem.span())?;
-    let bibliography = works.bibliography(loc, span)?;
-
-    if bibliography.entries.iter().any(|entry| entry.prefix.is_some()) {
-        let row_gutter = styles.get(ParElem::spacing);
-
-        let mut cells = vec![];
-        for entry in &bibliography.entries {
-            let prefix = PdfMarkerTag::ListItemLabel(
-                entry.prefix.clone().unwrap_or_default().located(entry.backlink),
-            );
-            cells.push(GridChild::Item(GridItem::Cell(
-                Packed::new(GridCell::new(prefix)).spanned(span),
-            )));
-
-            let reference = PdfMarkerTag::BibEntry(entry.body.clone());
-            cells.push(GridChild::Item(GridItem::Cell(
-                Packed::new(GridCell::new(reference)).spanned(span),
-            )));
-        }
-
-        let grid = GridElem::new(cells)
-            .with_columns(TrackSizings(smallvec![Sizing::Auto; 2]))
-            .with_column_gutter(TrackSizings(smallvec![COLUMN_GUTTER.into()]))
-            .with_row_gutter(TrackSizings(smallvec![row_gutter.into()]));
-        let mut packed = Packed::new(grid).spanned(span);
-        packed.synthesize(engine, styles)?;
-        // Directly build the block element to avoid the show step for the grid
-        // element. This will not generate introspection tags for the element.
-        let block = BlockElem::multi_layouter(packed, crate::grid::layout_grid).pack();
-
-        // TODO(accessibility): infer list numbering from style?
-        seq.push(PdfMarkerTag::Bibliography(true, block));
-    } else {
-        let mut body = vec![];
-        for entry in &bibliography.entries {
-            let realized =
-                PdfMarkerTag::BibEntry(entry.body.clone().located(entry.backlink));
-            let block = if bibliography.hanging_indent {
-                let body = HElem::new((-INDENT).into()).pack() + realized;
-                let inset = Sides::default()
-                    .with(styles.resolve(TextElem::dir).start(), Some(INDENT.into()));
-                BlockElem::new()
-                    .with_inset(inset)
-                    .with_body(Some(BlockBody::Content(body)))
-                    .pack()
-            } else {
-                BlockElem::packed(realized)
-            };
-
-            body.push(block.spanned(span));
-        }
-        seq.push(PdfMarkerTag::Bibliography(false, Content::sequence(body)));
-    }
-
-    Ok(Content::sequence(seq))
-};
-
-const CSL_LIGHT_RULE: ShowFn<CslLightElem> =
-    |elem, _, _| Ok(elem.body.clone().set(TextElem::delta, WeightDelta(-100)));
-
-const CSL_INDENT_RULE: ShowFn<CslIndentElem> =
-    |elem, _, _| Ok(PadElem::new(elem.body.clone()).pack());
 
 const TABLE_RULE: ShowFn<TableElem> = |elem, _, _| {
     Ok(BlockElem::multi_layouter(elem.clone(), crate::grid::layout_table).pack())

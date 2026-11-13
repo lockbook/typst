@@ -279,36 +279,6 @@ A few
 #block(width: 100%, metadata(none) + align(center)[A])
 #block(width: 100%, align(center)[A] + metadata(none))
 
---- par-semantic-align paged ---
-#show par: highlight
-#show bibliography: none
-#set block(width: 100%, stroke: 1pt, inset: 5pt)
-
-#bibliography("/assets/bib/works.bib")
-
-#block[
-  #set align(right)
-  Hello
-]
-
-#block[
-  #set align(right)
-  Hello
-  @netwok
-]
-
-#block[
-  Hello
-  #align(right)[World]
-  You
-]
-
-#block[
-  Hello
-  #align(right)[@netwok]
-  You
-]
-
 --- par-leading-and-spacing paged ---
 // Test changing leading and spacing.
 #set par(spacing: 1em, leading: 2pt)
@@ -529,8 +499,8 @@ C #parbreak() D
 // Variant 2: Prevent recursion by observing a style.
 #let revoke = metadata("revoke")
 #show par: it => {
-  if bibliography.title == revoke { return it }
-  set bibliography(title: revoke)
+  if outline.title == revoke { return it }
+  set outline(title: revoke)
   let p = counter("p")
   par[#p.step()§#context p.display() #it.body]
 }

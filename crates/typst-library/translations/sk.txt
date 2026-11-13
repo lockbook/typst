@@ -1,7 +1,6 @@
 figure = Obrázok
 table = Tabuľka
 equation = Rovnica
-bibliography = Bibliografia
 heading = Kapitola
 outline = Obsah
 raw = Výpis

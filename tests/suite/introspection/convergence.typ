@@ -181,37 +181,6 @@
 
 #metadata(none) <end>
 
---- converge-bibliography-1 paged ---
-// Warning: document did not converge within five attempts
-// Hint: see 2 additional warnings for more details
-// Hint: see https://typst.app/help/convergence for help
-#import "switch.typ": switch
-// Warning: 26-63 citations and bibliographies did not stabilize
-// Error: 26-63 bibliography could not be located
-// Hint: 26-63 this bibliography is not stably present in the document
-// Hint: 26-63 this can be caused by measurement or introspection
-#switch(n => if n >= 5 { bibliography("/assets/bib/works.bib") })
-
-// Error: 1-8 label `<netwok>` does not exist in the document
-// Warning: 1-8 number of bibliography elements did not stabilize
-// Hint: 1-8 the following numbers of elements were observed:\n- run 1: 0\n- run 2: 0\n- run 3: 0\n- run 4: 0\n- run 5: 0\n- final: 1
-@netwok
-
---- converge-bibliography-2 paged ---
-// Warning: document did not converge within five attempts
-// Hint: see 2 additional warnings for more details
-// Hint: see https://typst.app/help/convergence for help
-#import "switch.typ": switch
-
-// Warning: 26-63 citations and bibliographies did not stabilize
-#switch(n => if n >= 4 { bibliography("/assets/bib/works.bib") })
-
-// Error: 1-8 citation could not be located
-// Hint: 1-8 this citation is not stably present in the document
-// Warning: 1-8 citations and bibliographies did not stabilize
-// Hint: 1-8 this can be caused by measurement or introspection
-@netwok
-
 --- convergence-measure paged empty ---
 // Warning: document did not converge within five attempts
 // Hint: see 1 additional warning for more details

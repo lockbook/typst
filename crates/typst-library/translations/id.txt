@@ -1,7 +1,6 @@
 figure = Gambar
 table = Tabel
 equation = Persamaan
-bibliography = Daftar Pustaka
 heading = Bagian
 outline = Daftar Isi
 raw = Kode

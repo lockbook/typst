@@ -1,4 +1,3 @@
-fb8fcffb60d5a67ba437ee7efed3d63d bibliography-basic
 ba2fad776ea01badf4d1a914820cac70 break-tags-nested-parbreak
 8eacf9952ce67d990154b48bb8d425a2 break-tags-nested-parbreak-with-nested-groups
 5c4f805cf0adecbc82fbaeaf0afd791b deco-tags-different-color
@@ -37,7 +36,6 @@ dc328f34d7e95850a5b6ecaa3ac73237 footnote-tags-basic
 8baa5ef5afdc18f3cc5ad494fa9fc74d footnote-tags-ref-to-other-footnote
 aedfe180f59a9463e715ae5587a5ef34 grid-headers
 1c7e8427b21e7871f73a528eef89bc49 grid-tags-cell-breaking
-78204d67f00bd4162249a661107cc4df grid-tags-internal-grid-layout-breaking-bibliography
 2babf3c56121b182a8f1f45411eeacba grid-tags-rowspan
 6d93d5637c6dd5edc2ccca24509367d3 grid-tags-rowspan-split-3
 823b53d909fa38c71d03bf35b4ba1a44 heading-offset

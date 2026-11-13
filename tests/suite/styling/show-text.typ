@@ -141,38 +141,11 @@ Heyaho
 Who's got it? \
 We've got it.
 
---- show-text-citation paged ---
-#show "hey": [@arrgh]
-@netwok hey
-
-#show bibliography: none
-#bibliography("/assets/bib/works.bib")
-
 --- show-text-list paged ---
 #show "hi": [- B]
 - A
 hi
 - C
-
---- show-text-citation-smartquote paged ---
-#show "hey \"": [@arrgh]
-#show "dis": [@distress]
-@netwok hey " dis
-
-#show bibliography: none
-#bibliography("/assets/bib/works.bib", style: "american-physics-society")
-
---- show-text-in-citation paged ---
-#show "A": "B"
-#show "[": "("
-#show "]": ")"
-#show "[2]": set text(red)
-
-@netwok A \
-@arrgh B
-
-#show bibliography: none
-#bibliography("/assets/bib/works.bib")
 
 --- show-text-linebreak paged ---
 #show "lo\nwo": set text(red)

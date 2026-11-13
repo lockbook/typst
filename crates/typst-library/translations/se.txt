@@ -1,7 +1,6 @@
 figure = Govus
 table = Tabealla
 # equation =
-bibliography = Girjjálašvuohta
 # heading =
 outline = Sisdoallu
 # raw =

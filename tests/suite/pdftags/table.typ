@@ -99,19 +99,6 @@
   [a3], [c3],
 )
 
---- table-tags-citation-in-repeated-header pdftags pdfstandard(ua-1) ---
-#set page(height: 60pt)
-#table(
-  // Error: 16-23 PDF/UA-1 error: PDF artifacts may not contain links
-  // Hint: 16-23 references, citations, and footnotes are also considered links in PDF
-  table.header[@netwok],
-  [A],
-  [A],
-)
-
-#show bibliography: none
-#bibliography("/assets/bib/works.bib")
-
 --- table-tags-private-table-summary eval pdfstandard(ua-1) ---
 #table(
   // Error: 3-18 unexpected argument: summary

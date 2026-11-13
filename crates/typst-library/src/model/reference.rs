@@ -1,10 +1,10 @@
 use comemo::Track;
 use ecow::eco_format;
 
-use crate::diag::{At, Hint, SourceResult, bail};
+use crate::diag::{At, Hint, SourceResult};
 use crate::engine::Engine;
 use crate::foundations::{
-    Cast, Content, Context, Func, IntoValue, Label, NativeElement, Packed, Repr, Smart,
+    Cast, Content, Context, Func, IntoValue, Label, NativeElement, Packed, Smart,
     StyleChain, Synthesize, cast, elem,
 };
 use crate::introspection::{
@@ -12,12 +12,10 @@ use crate::introspection::{
     PageSupplementIntrospection, QueryLabelIntrospection, Tagged,
 };
 use crate::math::EquationElem;
-use crate::model::{
-    BibliographyElem, CiteElem, DirectLinkElem, Figurable, FootnoteElem, Numbering,
-};
+use crate::model::{DirectLinkElem, Figurable, FootnoteElem, Numbering};
 use crate::text::TextElem;
 
-/// A reference to a label or bibliography.
+/// A reference to a label.
 ///
 /// Takes a label and cross-references it. There are two kind of references,
 /// determined by its @ref.form[`form`]: `{"normal"}` and `{"page"}`.
@@ -27,7 +25,6 @@ use crate::text::TextElem;
 /// string such as "Section 1" for a reference to the first heading. The word
 /// "Section" depends on the @text.lang[`lang`] setting and is localized
 /// accordingly. The references are also links to the respective element.
-/// Reference syntax can also be used to @cite[cite] from a bibliography.
 ///
 /// As the default form requires a supplement and numbering, the label must be
 /// attached to a _referenceable element_. Referenceable elements include
@@ -57,7 +54,7 @@ use crate::text::TextElem;
 /// Recent developments in
 /// typesetting software have
 /// rekindled hope in previously
-/// frustrated researchers. @distress
+/// frustrated researchers.
 /// As shown in @results (see
 /// #ref(<results>, form: "page")),
 /// we ...
@@ -70,8 +67,6 @@ use crate::text::TextElem;
 /// @slow demonstrates what slow
 /// software looks like.
 /// $ T(n) = O(2^n) $ <slow>
-///
-/// #bibliography("works.bib")
 /// ```
 ///
 /// = Syntax <syntax>
@@ -138,10 +133,6 @@ use crate::text::TextElem;
 #[elem(title = "Reference", Locatable, Tagged, Synthesize)]
 pub struct RefElem {
     /// The target label that should be referenced.
-    ///
-    /// Can be a label that is defined in the document or, if the
-    /// @ref.form[`form`] is set to `["normal"]`, an entry from the
-    /// @bibliography.
     #[required]
     pub target: Label,
 
@@ -150,7 +141,6 @@ pub struct RefElem {
     /// If the @ref.form[`form`] is set to `{"normal"}`:
     /// - For references to headings or figures, this is added before the
     ///   referenced number.
-    /// - For citations, this can be used to add a page number.
     ///
     /// If the @ref.form[`form`] is set to `{"page"}`, then this is added before
     /// the page number of the label referenced.
@@ -189,32 +179,18 @@ pub struct RefElem {
     #[default(RefForm::Normal)]
     pub form: RefForm,
 
-    /// A synthesized citation.
-    #[synthesized]
-    pub citation: Option<Packed<CiteElem>>,
-
     /// The referenced element.
     #[synthesized]
     pub element: Option<Content>,
 }
 
 impl Synthesize for Packed<RefElem> {
-    fn synthesize(
-        &mut self,
-        engine: &mut Engine,
-        styles: StyleChain,
-    ) -> SourceResult<()> {
+    fn synthesize(&mut self, engine: &mut Engine, _: StyleChain) -> SourceResult<()> {
         let span = self.span();
-        let citation = to_citation(self, engine, styles)?;
-
         let elem = self.as_mut();
-        elem.citation = Some(Some(citation));
         elem.element = Some(None);
 
-        if !BibliographyElem::has(engine, elem.target, span)
-            && let Ok(found) =
-                engine.introspect(QueryLabelIntrospection(elem.target, span))
-        {
+        if let Ok(found) = engine.introspect(QueryLabelIntrospection(elem.target, span)) {
             elem.element = Some(Some(found));
             return Ok(());
         }
@@ -259,21 +235,6 @@ impl Packed<RefElem> {
             );
         }
         // RefForm::Normal
-
-        if BibliographyElem::has(engine, self.target, span) {
-            if let Ok(elem) = elem {
-                bail!(
-                    span,
-                    "label `{}` occurs both in the document and a bibliography",
-                    self.target.repr();
-                    hint: "change either the {}'s label or the \
-                           bibliography key to resolve the ambiguity",
-                    elem.func().name();
-                );
-            }
-
-            return Ok(to_citation(self, engine, styles)?.pack().spanned(span));
-        }
 
         let elem = elem.at(span)?;
 
@@ -358,24 +319,6 @@ fn realize_reference(
     content = content.spanned(span);
 
     Ok(DirectLinkElem::new(loc, content, Some(alt)).pack().spanned(span))
-}
-
-/// Turn a reference into a citation.
-fn to_citation(
-    reference: &Packed<RefElem>,
-    engine: &mut Engine,
-    styles: StyleChain,
-) -> SourceResult<Packed<CiteElem>> {
-    let mut elem = Packed::new(CiteElem::new(reference.target).with_supplement(
-        match reference.supplement.get_cloned(styles) {
-            Smart::Custom(Some(Supplement::Content(content))) => Some(content),
-            _ => None,
-        },
-    ));
-
-    elem.synthesize(engine, styles)?;
-
-    Ok(elem)
 }
 
 /// Additional content for a reference.

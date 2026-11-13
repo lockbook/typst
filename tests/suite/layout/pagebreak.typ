@@ -114,11 +114,6 @@ Second
 
 Third
 
---- issue-2134-pagebreak-bibliography paged ---
-// Test weak pagebreak before bibliography.
-#pagebreak(weak: true)
-#bibliography("/assets/bib/works.bib")
-
 --- issue-2095-pagebreak-numbering paged ---
 // The empty page 2 should not have a page number
 #set page(numbering: none)

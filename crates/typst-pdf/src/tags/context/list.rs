@@ -85,18 +85,4 @@ impl ListCtx {
             groups.push_group(list, id);
         }
     }
-
-    pub fn push_bib_entry(
-        &mut self,
-        groups: &mut Groups,
-        list: GroupId,
-        bib_entry: GroupId,
-    ) {
-        // Bibliography lists are always flat, so there is no need to check for
-        // an inner list. If they do contain a list it is semantically unrelated
-        // and can be left within the list body.
-        let item = self.ensure_within_item(groups, list);
-        let body = groups.push_tag(item, Tag::LBody);
-        groups.push_group(body, bib_entry);
-    }
 }

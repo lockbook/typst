@@ -79,17 +79,6 @@ Hidden:
 
 #image("/assets/images/tiger.jpg", width: 5cm, height: 1cm,)
 
---- issue-622-hide-meta-cite paged ---
-// Test that metadata of hidden stuff stays available.
-#set cite(style: "chicago-shortened-notes")
-
-A pirate. @arrgh \
-#set text(2pt)
-#hide[
-  A @arrgh pirate.
-  #bibliography("/assets/bib/works.bib")
-]
-
 --- issue-622-hide-meta-outline paged ---
 #set text(8pt)
 #outline()

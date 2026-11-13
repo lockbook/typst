@@ -1,7 +1,6 @@
 figure = รูปที่
 table = ตารางที่
 # equation =
-bibliography = บรรณานุกรม
 # heading =
 outline = สารบัญ
 # raw =

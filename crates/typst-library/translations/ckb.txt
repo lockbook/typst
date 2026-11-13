@@ -1,7 +1,6 @@
 figure = وێنەی
 table = خشتەی
 # equation =
-bibliography = کتێبنامە
 # heading =
 outline = نێوەڕۆک
 # raw =

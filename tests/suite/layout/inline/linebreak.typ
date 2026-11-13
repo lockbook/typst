@@ -60,15 +60,6 @@ Hello From Earth
 // Test linebreak for East Asian languages
 ทีวีตรวจทานนอร์ทแฟรีเลคเชอร์โกลด์อัลบัมเชอร์รี่เย้วสโตร์กฤษณ์เคลมเยอบีร่าพ่อค้าบลูเบอร์รี่สหัสวรรษโฮปแคนูโยโย่จูนสตรอว์เบอร์รีซื่อบื้อเยนแบ็กโฮเป็นไงโดนัททอมสเตริโอแคนูวิทย์แดรี่โดนัทวิทย์แอปพริคอทเซอร์ไพรส์ไฮบริดกิฟท์อินเตอร์โซนเซอร์วิสเทียมทานโคโยตี้ม็อบเที่ยงคืนบุญคุณ
 
---- linebreak-cite-punctuation paged ---
-// Test punctuation after citations.
-#set page(width: 162pt)
-
-They can look for the details in @netwok,
-which is the authoritative source.
-
-#bibliography("/assets/bib/works.bib")
-
 --- linebreak-math-punctuation paged ---
 // Test punctuation after math equations.
 #set page(width: 85pt)

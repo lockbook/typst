@@ -1,8 +1,7 @@
-use comemo::Track;
 use ecow::{EcoString, EcoVec, eco_vec};
 use rustc_hash::FxHashSet;
 use typst::foundations::{AsOutput, Label, Styles, Value};
-use typst::model::{BibliographyElem, FigureElem};
+use typst::model::FigureElem;
 use typst::syntax::{LinkedNode, SyntaxKind, ast};
 use typst_layout::PagedDocument;
 
@@ -94,14 +93,11 @@ pub fn analyze_import(world: &dyn IdeWorld, source: &LinkedNode) -> Option<Value
 
 /// Find all labels and details for them.
 ///
-/// Returns:
-/// - All labels and descriptions for them, if available
-/// - A split offset: All labels before this offset belong to nodes, all after
-///   belong to a bibliography.
+/// Returns all labels and descriptions for them, if available.
 ///
 /// Note: When multiple labels in the document have the same identifier,
 /// this only returns the first one.
-pub fn analyze_labels(output: impl AsOutput) -> (Vec<(Label, Option<EcoString>)>, usize) {
+pub fn analyze_labels(output: impl AsOutput) -> Vec<(Label, Option<EcoString>)> {
     let introspector = output.as_output().introspector();
 
     let mut output = vec![];
@@ -133,10 +129,5 @@ pub fn analyze_labels(output: impl AsOutput) -> (Vec<(Label, Option<EcoString>)>
         output.push((label, Some(details)));
     }
 
-    let split = output.len();
-
-    // Bibliography keys.
-    output.extend(BibliographyElem::keys(introspector.track()));
-
-    (output, split)
+    output
 }

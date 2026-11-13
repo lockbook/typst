@@ -22,17 +22,6 @@ e1f16759e487dd97c0b8f8360feb779b baseline-shapes
 0279d9390701ef07db1d6f6c60c61108 baseline-skew
 d316fa2510b16d2a755e2b5fde72d4a3 baseline-skew-multiline
 ee424cd3aff2b4548ee8e755773c6d2b baseline-text
-5474b8eb43c7a8c25a0b41e8882199bb bibliography-basic
-c8a57a1deffe0461aa6076c5bc52f92c bibliography-before-content
-ffac55b84dfaa5a84d9723fa00b0be8e bibliography-csl-display
-acd9d1c9d7a0c24af2b2595bda23ce43 bibliography-custom-title
-59a70b856c7450b4b7253ca8f947d592 bibliography-full
-bf5552b4b091e5344f755230aeb989a6 bibliography-grid-par
-1b3ca5f2db3cc4b857b9e2f85c48db01 bibliography-indent-par
-98a9a66e34690138172088b93c09dbcb bibliography-math
-c9a54e72fd5506cd4e2134e8f867a791 bibliography-multiple-files
-237f782c8b5a5413b4c889769a373286 bibliography-no-title
-197e2d44765e5a218e36076e5b05fbae bibliography-ordering
 91062ea123482f831f232f710606e65a bidi-consecutive-embedded-ltr-runs
 a92486b91c250646a35e0df4b8545441 bidi-consecutive-embedded-rtl-runs
 d8430951ff1beeb7c697400bcffb869c bidi-en-he-top-level
@@ -47,7 +36,6 @@ fbb1f26d0c0a84055509aec693c29938 bidi-whitespace-reset
 382d6bb155b1db17e6c3e289fb4bb664 block-clip-svg-glyphs
 338400242c1a245a046e8b44c944be99 block-clip-text
 a5dab7c173fdb819ade5c8ea4fd46a0b block-clipping-multiple-pages
-8d2abd65bb9bf9ca5208a249e529a56c block-consistent-width
 e7ed294a63b54cab0ef81e148fc6e4d5 block-fixed-height
 d9de8dad1bb0d79d29f9d17f58c3a813 block-fr-height
 544af55db2cefc83cd4ae4c9bd2896a6 block-fr-height-auto-width
@@ -81,12 +69,6 @@ d680b5e49eeff1beb5c1b332958b9e33 circle-directly-in-rect
 9b57c4018fa0cfa1b8a5ad541e18c020 circle-relative-sizing
 8937257e563ed7ad0c7df6698a8330ae circle-size-beyond-default
 225f733c92a03fba1a3a00786fe02e7a circle-sizing-options
-ad4849f71b1eb528a406e1b1c1d24b8e cite-chicago-fullnotes-warning
-286f9c9418f88a46272d285a0fc26890 cite-footnote
-d25349a4d0d89992cf16ea59fffc975d cite-form
-4a58463d2eda19958eca99c552706275 cite-group
-088eb9735e91dca29eae32c9db726a1c cite-grouping-and-ordering
-340cb4ac2d24fd403726b33225451cf2 cite-supplements-and-ibid
 b2f406383459a06672f7aefd0698da31 cjk-punctuation-adjustment-1
 10d53aa94a7e03a195072090316bd20f cjk-punctuation-adjustment-2
 f382ed18c8e52c6462d61a2ee2d88cd4 cjk-punctuation-adjustment-3
@@ -654,7 +636,6 @@ dc821ee25f1166d1dfaeb7cf1d94f85b issue-1398-line-align
 70c0bc8a6fbb69cdf1d3bdf51ed7e6ae issue-1433-footnote-in-list
 ddd27457a8ce0acaa80c45933fd47c70 issue-1445-widow-orphan-unnecessary-skip
 d5de63f74313f22d632cc66f0ee80831 issue-1540-smartquotes-across-newlines
-b449fee0a2b1b5e3dab8b014b091dbd8 issue-1597-cite-footnote
 99e1f95c243e8e123d1370e20ed6e851 issue-1617-mat-align
 507e651830105a61ab4f3618c43c134f issue-1825-rect-overflow
 8c4dac2c2b93b79222ad0af8a2602d18 issue-183-table-lines
@@ -670,7 +651,6 @@ bb6b4f0ce6fb6857e9b46869739f14f6 issue-2048-outline-multiline
 9766dc1eba6f7e41094b7c988b83272a issue-2095-pagebreak-numbering
 c0733a0c484268029da6ee2ab6050b39 issue-2105-linebreak-tofu
 db778f6d68fcdba7e75a44585bd161ad issue-2128-block-width-box
-0fcd0e7eaf2052d47ca72693e9395f7d issue-2134-pagebreak-bibliography
 e8d3e33e8d893bdaccdd7240f0d2518e issue-2162-pagebreak-set-style
 953f63d30f27170b98bfeba55506020a issue-2199-place-spacing-bottom
 150b64d99790b0d203a2a208fbe420f4 issue-2199-place-spacing-default
@@ -686,7 +666,6 @@ e15b94d2ec03515083427d1651230204 issue-2419-justify-hanging-indent
 2108156bd068f4a79ada87e46c5ec85e issue-2530-figure-caption-panic
 dafacf0731db553862c5d35bbfc5eca8 issue-2530-list-item-panic
 527bd48639f63b6a272d792f8648560f issue-2530-term-item-panic
-3f1765b894400a9c0451e94736ffa86b issue-2531-cite-show-set
 867805d292827c102c20501f99c36298 issue-2538-cjk-latin-spacing-before-linebreak
 447b3e0449f5ec363edcc3ba5367cb91 issue-2595-float-overlap
 a91b9d1365f225b85ffa546236d2b7ec issue-2631-page-header-ordering
@@ -703,7 +682,6 @@ e967f9eb5b086d5b5b0a86cf8bf3d97a issue-3232-dict-empty
 1da78c38a996283ee57d91e1fd7397f2 issue-3264-rect-negative-dimensions
 a5ef7d91bcfb2200b5ddc97501c535e6 issue-3355-metadata-weak-spacing
 3db1088bc780feac9f4fb87078281343 issue-3363-json-large-number
-515709f52f3fca82cfe4b3cb517d63c5 issue-3481-cite-location
 afc89abe9dd2baf1c2e07d7492507f6d issue-3586-figure-caption-separator
 9434eb2a6cf11bf3b96129f34accf7a3 issue-3601-empty-raw
 ac3a856d74fa3d1b606ee3b5f2868758 issue-3624-spacing-behaviour
@@ -712,7 +690,6 @@ ac3a856d74fa3d1b606ee3b5f2868758 issue-3624-spacing-behaviour
 0c71043431ce5059b583a3e09e42eb3e issue-3658-math-size
 473526786da0298d74979c3c976ae186 issue-3662-pdf-smartquotes
 489fca6060ee152f8324a49240b6b2d2 issue-3696-equation-rtl
-eb0e9dfe76d58b916f888ef31752f787 issue-3699-cite-twice-et-al
 65edd7919824d6561dd74152c771ec00 issue-3700-deformed-stroke
 201e2af73c0e38da4570510a74a389db issue-3726-query-show-set
 41ae5214193db193d666eae92db3a032 issue-3733-dpi-svg
@@ -734,7 +711,6 @@ b53233190afc8e9de77d1bccb9a01014 issue-4361-transparency-leak
 6d57d8cdb837c438f5882e7f7f82e069 issue-4454-footnote-ref-numbering
 b2c795d33466f4f88c60d4cd9e83ee8e issue-4468-linebreak-thai
 7d5dd8442c37bbf014160cd3f6761f79 issue-4476-outline-rtl-title-ending-in-ltr-text
-a2dbd885d1bcb1019a116d7c9739e30f issue-4618-bibliography-set-heading-level
 22aa2fee9fb526e8612f6d2e21962afb issue-4651-justify-bad-bound
 3565a774a41e599762d1e9928b7af9ab issue-4662-math-mode-language-for-raw
 326fd5b61fcd7eaa00f3132eabe04d37 issue-4828-math-number-multi-char
@@ -777,8 +753,6 @@ e1ef4a7d57832ec510b96b36abe1256e issue-5496-footnote-never-fits
 c1b1066be60f785086827d87bc44e243 issue-5496-footnote-never-fits-multiple
 cd7394c3cbf99f40e0e6deb651307d54 issue-5496-footnote-separator-never-fits
 480903e960300d357a1a07b1807d3dd6 issue-5499-text-fill-in-clip-block
-7d353ecfb258aac776c4cdeaedfbb8eb issue-5503-cite-group-interrupted-by-par-align
-da4991902856bcc6d26c438240ba5277 issue-5503-cite-in-align
 2268b6e36c329375fb3bc55e6f880fbc issue-5503-enum-in-align
 2d08ad3b88451d3dae9d250f533d1600 issue-5503-list-in-align
 44161aaaa1d9b8cb1d82a41d1a0ae33b issue-5503-terms-in-align
@@ -790,7 +764,6 @@ fb3f6d56998b5e1c5599a4d69783f808 issue-5719-list-nested
 e1c17bc3f11a539dc82a38f787fccf9a issue-5719-terms-nested
 a6c8630d31d7704412beb13a441b5444 issue-5723-grid-heading-numbering
 afb730f0d633b65bc65f4c8174fda44a issue-5760-disable-cjk-latin-spacing-in-raw
-2d19af94a7a00804419787bedc50986d issue-5775-cite-order-rtl
 291662f8fd9cb66bed291557ff82ad40 issue-5831-par-constructor-args
 c7e12917b1448ff19178641723dba4af issue-5855-misaligned-descender
 3dfda3a3af702fc21e8c723c0f03f993 issue-5930-symbol-label
@@ -801,7 +774,6 @@ f36c45bb93c9b00e23853ee255d7babc issue-6062-justify-cjk-latin-spacing
 dd874c978de00d0377a588d64f682231 issue-6125-block-place-width-limited
 09e1be520440eafc9d57fb77967155fd issue-6162-coincident-gradient-stops-export-png
 6ed0d8098cb16b3823aa4e7e51e8f3fb issue-6170-equation-stroke
-da57aa8dd14a7b2197c07671b14d280f issue-622-hide-meta-cite
 4099f8045934b2ac6b649d780bb58d2d issue-622-hide-meta-outline
 eb78b55109a3d59ec64e9be46fe3f97a issue-6242-tight-list-attach-spacing
 a299c14bf02d941242fd1e5ac1d5f1cf issue-6267-clip-anti-alias
@@ -828,7 +800,6 @@ e1d3eb6301fb147a71e6da0a5b305df6 issue-7428-heading-numbering-errors
 b65136a2425a4de64f20ee6d074818af issue-7437-math-accent-text-presentation
 abe703183168222efdea9e9fad4b45fc issue-7541-justify-with-zero-width-space
 ae20f6aff17916fdeb8c306e03357c63 issue-758-link-repeat
-f56795c728b71c3362c549303cd72cee issue-785-cite-locate
 8df622e20e954ba4703dbc3e8741ed70 issue-7872-negative-scale
 6d78160f24ae092b4b9aa84da23b96c2 issue-7901-rect-negative-dimensions-radius
 aef4ed36525eb9f423be68e32b38407f issue-7991-show-text-symbol-grapheme-sliced
@@ -922,7 +893,6 @@ d190e120731dd688c8f86840bd71c2de line-numbers-place-out-of-order
 0ba47e4697e2ed95b16428f509536487 line-stroke
 1ce3c89db3c90fe4badfe582c71d8db7 line-stroke-dash
 994737a4975d9bb338860b415117c36c line-stroke-set
-2caa943b0797350f82b0298bac198a83 linebreak-cite-punctuation
 1b38c7415432d1f30a8330db32962e4f linebreak-default-ignorables
 1a38492b52aa7916bf0af5e3658a55c3 linebreak-hyphen-nbsp
 1ee35b1234b5896330e19fb521fc77c1 linebreak-link
@@ -1352,8 +1322,6 @@ ec2b98137e502c3cedfc9c1b70ab01f8 math-vec-delim-set
 99af81a9271d750ded8880a2403325c2 math-vec-linebreaks
 da86eef4d909679324e9f8facad58ece math-vec-linebreaks-trailing
 d8c48174fd393c21b820f35e8bba5e82 math-vec-wide
-547cf87726de31789fa4398cae0983f6 measure-citation-deeply-nested
-7792307f4bd9a4f13eed5d1a749549da measure-citation-in-flow
 193e4ddb54acd9861fc1d959e48eb156 measure-counter-width
 589898e25bb25caf5f0ebd90903c9dbd mozilla-mathml-test-1
 9bf219c3a6fc128105016b0de2d56bc0 mozilla-mathml-test-10
@@ -1483,7 +1451,6 @@ d95885370057fafbec92bc6c78a19eef par-hanging-indent-rtl
 d19daf798d5ad2500b0c4bd503523a69 par-leading-and-spacing
 493953ae135d1f8cd7a106b17c4da5bb par-metadata-after-trimmed-space
 bdc6d86984d0182d1a47409cff68e327 par-semantic
-1a0df16bb4732c8430776d3b35e11b6f par-semantic-align
 62c49cd07b433999f933f96c7971e645 par-semantic-tag
 a1bdb99a562d2db97dace81f9b42c711 par-show-children
 61c9dd3b4a1d2bbd774557a1fc16838e par-show-styles
@@ -1528,12 +1495,8 @@ ab6e4aa0424d94ba6a60aeee7187a735 place-horizon-in-boxes
 062e382d54acd55a2c758bf43d05a3de query-running-header
 2c37b3aab7ef756ed4cf62c8ce1a6ef6 query-within
 e019a79ee42434b4e2e16e5c137d4b4f quote-block-spacing
-710a6d8aa173a7b1392e367e50365c6d quote-cite-format-author-date
-a64bab832fa87ef775e9dd24b62ddcb8 quote-cite-format-label-or-numeric
-445e3dd5fd77c185e33a58cefbcc5bab quote-cite-format-note
 2dfb2ea10fc9ea361110293521163376 quote-dir-align
 6a0822d9448e1d83a3ea7b7d47e41334 quote-dir-author-pos
-58b4b368fa1c91b56b6eaef7a2fad8ce quote-inline
 28fe4d0b486355474d450dfc31fa8d32 quote-nesting
 b11b5c4668d407fd3fc3111dfa047fc5 quote-nesting-custom
 b04dff6085519678e241c50d94a2046c quote-par
@@ -1589,7 +1552,6 @@ d8e2f467ccd279c02256d42f41056e7e rect-stroke-variations-with-radius-and-adjacent
 6c96531015b45e986f2a7f3e480cf2c7 rect-stroke-variations-without-radius
 382c4da755e77b7791143faea2bd94dd ref-basic
 42eeda4981e0d8ed7d12126eb1e99f67 ref-form-page
-140368d81f9f14c0e8d0d0ff7185d65e ref-form-page-unambiguous
 54713f31f68c55e7f03f7dd796f0858d ref-supplements
 85c1f362553ecc6b1e7f3789ae0377bd ref-to-empty-label-not-possible
 43fbce05661ba560895b9538275e51c1 repeat-align-and-dir
@@ -1665,13 +1627,10 @@ feb0101c1d08bc4fb3c02fc2615f57a9 show-set-where-override
 fc0d5d21d1119bba6050466dafd04235 show-text-after-normal-show
 2b9fc9054e8bd313b28a9c3bbaa43cd4 show-text-apostrophe
 88e3d40345fe6d4c1835332b6cef4ada show-text-basic
-3d2257c4117b993c55e959352e0c75f8 show-text-citation
-73dc907608813f1eb317aaf6cdff0041 show-text-citation-smartquote
 85ac6797167807e7eab2a7caf0aab558 show-text-cyclic
 d15c0e13dcfac0ed148c69eef0442fb5 show-text-cyclic-raw
 61a216a8b94384c18b16ce072a34eb60 show-text-exactly-once
 d92716dfe456afd80c5ab16b16fbdd4f show-text-get-text-on-it
-5e2bf2d742947794253b560896ae028b show-text-in-citation
 134b5858fb9837224a0427864e1102e2 show-text-in-other-show
 791297c4910122931c6b9c982292dee4 show-text-indirectly-cyclic
 2c1e75f4bc76a80ce286e0eb629031f5 show-text-isolated-space
@@ -1811,7 +1770,6 @@ a56fd4bc6e56ea09e0c581db861f6795 table-cell-various-overrides
 97f04781b1369f2d011efe6578dc0d19 table-contextual-measurement
 838e71902c081308dc5163a8a97a7931 table-fill-basic
 46535088751f8e80aff13c2a1d0835c0 table-gutters
-c6ffad327353b0bed78b9d4317a01992 table-header-citation
 7ea01e3e60de26b2ab0f2e1146848fa1 table-header-counter
 47a3c8732ed793d9ebf4c7c640a0f040 table-header-footer-madness
 a7abe27f562feb7cad67977e16f9e51a table-inset

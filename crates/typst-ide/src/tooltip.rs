@@ -193,7 +193,7 @@ fn label_tooltip(output: impl AsOutput, leaf: &LinkedNode) -> Option<Tooltip> {
         _ => return None,
     };
 
-    for (label, detail) in analyze_labels(output).0 {
+    for (label, detail) in analyze_labels(output) {
         if label.resolve().as_str() == target {
             return Some(Tooltip::Text(detail?));
         }

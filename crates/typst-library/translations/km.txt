@@ -1,7 +1,6 @@
 figure = រូប
 table = តារាង
 # equation =
-bibliography = គន្ថនិទ្ទេស
 # heading =
 outline = មាតិការ
 # raw =

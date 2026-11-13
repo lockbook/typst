@@ -128,7 +128,6 @@ impl Groups {
             GroupKind::ListItemBody(..) => Never,
             GroupKind::TermsItemLabel(..) => Never,
             GroupKind::TermsItemBody(..) => Never,
-            GroupKind::BibEntry(..) => Never,
             GroupKind::FigureWrapper(..) => Never,
             GroupKind::Figure(..) => Never,
             GroupKind::FigureCaption(..) => Never,
@@ -213,7 +212,6 @@ impl Groups {
             | GroupKind::ListItemBody(..)
             | GroupKind::TermsItemLabel(..)
             | GroupKind::TermsItemBody(..)
-            | GroupKind::BibEntry(..)
             | GroupKind::FigureWrapper(..)
             | GroupKind::Figure(..)
             | GroupKind::FigureCaption(..)
@@ -435,7 +433,6 @@ pub enum GroupKind {
     ListItemBody(Option<Locale>),
     TermsItemLabel(Option<Locale>),
     TermsItemBody(Option<GroupId>, Option<Locale>),
-    BibEntry(Option<Locale>),
     /// An wrapper element that enclosed the figure tag and its caption.
     /// If there is no caption, this is omitted.
     FigureWrapper(FigureId),
@@ -476,7 +473,6 @@ impl std::fmt::Debug for GroupKind {
             Self::ListItemBody(..) => "ListItemBody",
             Self::TermsItemLabel(..) => "TermsItemLabel",
             Self::TermsItemBody(..) => "TermsItemBody",
-            Self::BibEntry(..) => "BibEntry",
             Self::FigureWrapper(..) => "FigureWrapper",
             Self::Figure(..) => "Figure",
             Self::FigureCaption(..) => "FigureCaption",
@@ -581,7 +577,6 @@ impl GroupKind {
             GroupKind::ListItemBody(lang) => lang,
             GroupKind::TermsItemLabel(lang) => lang,
             GroupKind::TermsItemBody(_, lang) => lang,
-            GroupKind::BibEntry(lang) => lang,
             GroupKind::FigureWrapper(_) => return None,
             GroupKind::Figure(_, _, lang) => lang,
             GroupKind::FigureCaption(_, lang) => lang,
@@ -614,7 +609,6 @@ impl GroupKind {
             GroupKind::ListItemBody(lang) => lang,
             GroupKind::TermsItemLabel(lang) => lang,
             GroupKind::TermsItemBody(_, lang) => lang,
-            GroupKind::BibEntry(lang) => lang,
             GroupKind::FigureWrapper(_) => return None,
             GroupKind::Figure(_, _, lang) => lang,
             GroupKind::FigureCaption(_, lang) => lang,

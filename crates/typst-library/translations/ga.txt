@@ -1,7 +1,6 @@
 figure = Figiúr
 table = Tábla
 equation = Cothromóid
-bibliography = Leabharliosta
 heading = Ceannteideal
 outline = Clár Ábhair
 raw = Amhábhar

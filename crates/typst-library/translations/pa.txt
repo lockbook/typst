@@ -1,7 +1,6 @@
 figure = ਸ਼ਕਲ
 table = ਲੇਖਾ
 # equation =
-bibliography = ਸੰਬੰਧਤ ਹਵਾਲੇ
 # heading =
 outline = ਸਮਗਰੀ
 # raw =

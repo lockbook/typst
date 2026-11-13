@@ -113,8 +113,8 @@ A #block($sum_(i = 0)^oo$) B #block($ sum_(i = 0)^oo $) C
 #block(box($ sum_(i = 0)^oo $)) vs #box(block($sum_(i = 0)^oo$))
 
 --- mathml-html-elem-styles html ---
-#show math.attach: set bibliography(title: "Hi")
-#show html.elem.where(tag: "mi"): context bibliography.title
+#show math.attach: set outline(title: "Hi")
+#show html.elem.where(tag: "mi"): context outline.title
 $ a^+ $
 
 --- mathml-html-elem-show-rule html ---

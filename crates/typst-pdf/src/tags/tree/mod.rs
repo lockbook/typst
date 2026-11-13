@@ -533,15 +533,6 @@ fn close_group(tree: &mut Tree, surface: &mut Surface, id: GroupId) -> GroupId {
                 tree.groups.push_group(direct_parent, id);
             }
         }
-        GroupKind::BibEntry(..) => {
-            if let Some(list) = move_into(tree, semantic_parent, id, GroupKind::as_list) {
-                let list_ctx = tree.ctx.lists.get_mut(list);
-                list_ctx.push_bib_entry(&mut tree.groups, semantic_parent, id);
-            } else {
-                // Avoid panicking, the nesting will be validated later.
-                tree.groups.push_group(direct_parent, id);
-            }
-        }
         GroupKind::FigureWrapper(..) => unreachable!("only generated below"),
         GroupKind::Figure(figure, ..) => {
             // Insert the wrapper.

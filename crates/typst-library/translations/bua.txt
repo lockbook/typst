@@ -1,7 +1,6 @@
 figure = Зураг
 table = Хүсэнэгт
 # equation =
-bibliography = Ном зүй
 # heading =
 outline = Гаршаг
 # raw =

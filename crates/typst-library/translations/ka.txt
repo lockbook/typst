@@ -1,7 +1,6 @@
 figure = სურ.
 table = ცხრ.
 # equation =
-bibliography = ლიტერატურა
 # heading =
 outline = შინაარსი
 # raw =

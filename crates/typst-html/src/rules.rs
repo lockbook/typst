@@ -17,12 +17,11 @@ use typst_library::layout::{BlockElem, HElem, OuterVAlignment, Sizing};
 use typst_library::math::EquationElem;
 use typst_library::math::ir::resolve_equation;
 use typst_library::model::{
-    Attribution, BibliographyElem, CiteElem, CiteGroup, CslIndentElem, CslLightElem,
-    Destination, DirectLinkElem, DividerElem, EarlyLinkResolver, EmphElem, EnumElem,
-    FigureCaption, FigureElem, FootnoteContainer, FootnoteElem, FootnoteEntry,
+    Attribution, Destination, DirectLinkElem, DividerElem, EarlyLinkResolver, EmphElem,
+    EnumElem, FigureCaption, FigureElem, FootnoteContainer, FootnoteElem, FootnoteEntry,
     FootnoteMarker, HeadingElem, LinkElem, LinkTarget, ListElem, OutlineElem,
     OutlineEntry, OutlineNode, ParElem, ParbreakElem, QuoteElem, RefElem, StrongElem,
-    TableCell, TableElem, TermsElem, TitleElem, Works,
+    TableCell, TableElem, TermsElem, TitleElem,
 };
 use typst_library::routines::Arenas;
 use typst_library::text::{
@@ -61,10 +60,6 @@ pub fn register(rules: &mut NativeRuleMap) {
     rules.register(Html, OUTLINE_RULE);
     rules.register(Html, OUTLINE_ENTRY_RULE);
     rules.register(Html, REF_RULE);
-    rules.register(Html, CITE_GROUP_RULE);
-    rules.register(Html, BIBLIOGRAPHY_RULE);
-    rules.register(Html, CSL_LIGHT_RULE);
-    rules.register(Html, CSL_INDENT_RULE);
     rules.register(Html, TABLE_RULE);
     rules.register(Html, TABLE_CELL_RULE);
 
@@ -316,12 +311,9 @@ const QUOTE_RULE: ShowFn<QuoteElem> = |elem, _, styles| {
         realized = BlockElem::packed(blockquote.pack().spanned(span));
 
         if let Some(attribution) = attribution.as_ref() {
-            realized += attribution.realize(span);
+            realized += attribution.realize();
             realized += ParbreakElem::shared();
         }
-    } else if let Some(Attribution::Label(label)) = attribution {
-        realized += SpaceElem::shared().clone();
-        realized += CiteElem::new(*label).pack().spanned(span);
     }
 
     Ok(realized)
@@ -489,86 +481,6 @@ const OUTLINE_ENTRY_RULE: ShowFn<OutlineEntry> = |elem, engine, styles| {
 };
 
 const REF_RULE: ShowFn<RefElem> = |elem, engine, styles| elem.realize(engine, styles);
-
-const CITE_GROUP_RULE: ShowFn<CiteGroup> = |elem, engine, _| {
-    Ok(elem
-        .realize(engine)?
-        .styled(HtmlElem::role.set(Some("doc-biblioref".into()))))
-};
-
-// For the bibliography, we have a few elements that should be styled (e.g.
-// indent), but inline styles are not apprioriate because they couldn't be
-// properly overridden. For those, we currently emit classes so that a user can
-// style them with CSS, but do not emit any styles ourselves.
-const BIBLIOGRAPHY_RULE: ShowFn<BibliographyElem> = |elem, engine, styles| {
-    let loc = elem.location().unwrap();
-    let span = elem.span();
-    let works = Works::generate(engine, elem.span())?;
-    let bibliography = works.bibliography(loc, span)?;
-
-    let items = bibliography.entries.iter().map(|entry| {
-        let mut realized = entry.body.clone();
-
-        if let Some(mut prefix) = entry.prefix.clone() {
-            // If we have a link back to the first citation referencing this
-            // entry, attach the appropriate role.
-            if prefix.is::<DirectLinkElem>() {
-                prefix = prefix.set(HtmlElem::role, Some("doc-backlink".into()));
-            }
-
-            let wrapped = HtmlElem::new(tag::span)
-                .with_attr(attr::class, "prefix")
-                .with_body(Some(prefix))
-                .pack()
-                .spanned(span);
-
-            let separator = SpaceElem::shared().clone();
-            realized = Content::sequence([wrapped, separator, realized]);
-        }
-
-        HtmlElem::new(tag::li)
-            .with_body(Some(realized))
-            .pack()
-            .located(entry.backlink)
-            .spanned(span)
-    });
-
-    let title = elem.realize_title(styles);
-    let list = HtmlElem::new(tag::ul)
-        .with_css(css::Properties::new().with("list-style-type", "none"))
-        .with_body(Some(Content::sequence(items)))
-        .pack()
-        .spanned(span);
-
-    Ok(BlockElem::packed(
-        HtmlElem::new(tag::section)
-            .with_attr(attr::role, "doc-bibliography")
-            .with_optional_attr(
-                attr::class,
-                bibliography.hanging_indent.then_some("hanging-indent"),
-            )
-            .with_body(Some(title.unwrap_or_default() + list))
-            .pack()
-            .spanned(elem.span()),
-    ))
-};
-
-const CSL_LIGHT_RULE: ShowFn<CslLightElem> = |elem, _, _| {
-    Ok(HtmlElem::new(tag::span)
-        .with_attr(attr::class, "light")
-        .with_body(Some(elem.body.clone()))
-        .pack())
-};
-
-const CSL_INDENT_RULE: ShowFn<CslIndentElem> = |elem, _, _| {
-    Ok(BlockElem::packed(
-        HtmlElem::new(tag::div)
-            .with_attr(attr::class, "indent")
-            .with_body(Some(elem.body.clone()))
-            .pack()
-            .spanned(elem.span()),
-    ))
-};
 
 const TABLE_RULE: ShowFn<TableElem> = |elem, _, styles| {
     let grid = elem.grid.as_ref().unwrap();

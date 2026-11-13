@@ -1,7 +1,6 @@
 figure = Attēls
 table = Tabula
 equation = Vienādojums
-bibliography = Literatūra
 heading = Sadaļa
 outline = Saturs
 raw = Saraksts

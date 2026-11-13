@@ -1,7 +1,6 @@
 figure = आकृती
 table = कोष्टक
 # equation =
-bibliography = संदर्भसूची
 # heading =
 outline = अनुक्रमणिका
 # raw =

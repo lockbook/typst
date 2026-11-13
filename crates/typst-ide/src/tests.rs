@@ -48,12 +48,6 @@ impl TestWorld {
 
     /// Add an additional asset file to the test world.
     #[track_caller]
-    pub fn with_asset(self, filename: &str) -> Self {
-        self.with_asset_at(filename, filename)
-    }
-
-    /// Add an additional asset file to the test world.
-    #[track_caller]
     pub fn with_asset_at(mut self, path: &str, filename: &str) -> Self {
         let id = RootedPath::new(VirtualRoot::Project, VirtualPath::new(path).unwrap())
             .intern();

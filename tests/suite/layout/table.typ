@@ -152,17 +152,6 @@
   k, k, k,
 )
 
---- table-header-citation paged ---
-#set page(height: 60pt)
-#table(
-  table.header[@netwok],
-  [A],
-  [A],
-)
-
-#show bibliography: none
-#bibliography("/assets/bib/works.bib")
-
 --- table-header-counter paged ---
 #set page(height: 60pt)
 #let c = counter("c")

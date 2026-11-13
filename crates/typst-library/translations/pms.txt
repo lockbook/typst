@@ -1,7 +1,6 @@
 figure = Figura
 table = Tabela
 # equation =
-bibliography = Bibliografìa
 # heading =
 outline = Tàula
 # raw =

@@ -40,48 +40,6 @@
 #c.update(1)
 #f(it)
 
---- measure-citation-in-flow paged ---
-// Try measuring a citation that appears inline with other stuff. The
-// introspection-assisted location assignment will ensure that the citation
-// in the measurement is matched up with the real one.
-#context {
-  let it = [@netwok]
-  let size = measure(it)
-  place(line(length: size.width))
-  v(1mm)
-  it + [ is cited]
-}
-
-#show bibliography: none
-#bibliography("/assets/bib/works.bib")
-
---- measure-citation-in-flow-different-span paged ---
-// When the citation has a different span, it stops working.
-#context {
-  // Error: 22-29 citation could not be located
-  // Hint: 22-29 this citation is not stably present in the document
-  // Hint: 22-29 this can be caused by measurement or introspection
-  let size = measure[@netwok]
-  place(line(length: size.width))
-  v(1mm)
-  [@netwok is cited]
-}
-
-#show bibliography: none
-#bibliography("/assets/bib/works.bib")
-
---- measure-citation-deeply-nested paged ---
-// Nested the citation deeply to test that introspector-assisted measurement
-// is able to deal with memoization boundaries.
-#context {
-  let it = box(pad(x: 5pt, grid(stack[@netwok])))
-  [#measure(it).width]
-  it
-}
-
-#show bibliography: none
-#bibliography("/assets/bib/works.bib")
-
 --- measure-counter paged empty ---
 // When the thing we measure appears multiple times, we measure as if it was
 // the first one.

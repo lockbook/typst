@@ -1,7 +1,6 @@
 figure = رەسىم
 table = جەدۋەل
 # equation =
-bibliography = پايدىلانما
 # heading =
 outline = مۇندەرىجە
 # raw =

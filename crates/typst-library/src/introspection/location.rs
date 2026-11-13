@@ -36,7 +36,7 @@ pub trait Tagged {}
 /// and can be found with @query[queries]:
 ///
 /// - In the @reference:model[Model category], the following elements are
-///   locatable: @asset, @bibliography, @cite, @document, @emph, @enum, @figure,
+///   locatable: @asset, @document, @emph, @enum, @figure,
 ///   @figure.caption, @footnote, @footnote.entry, @heading, @link, @list,
 ///   @outline, @outline.entry, @par, @quote, @ref, @strong, @table, @terms, and
 ///   @title. Most of the elements in the _Model_ category are locatable because

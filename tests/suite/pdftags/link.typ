@@ -38,15 +38,6 @@ A random location <somewhere>
   @heading
 ]
 
---- link-tags-citation-in-artifact pdftags pdfstandard(ua-1) ---
-#pdf.artifact[
-  // Error: 3-10 PDF/UA-1 error: PDF artifacts may not contain links
-  // Hint: 3-10 references, citations, and footnotes are also considered links in PDF
-  @netwok
-]
-#show bibliography: none
-#bibliography("/assets/bib/works.bib")
-
 --- link-tags-with-parbreak-error pdftags pdfstandard(ua-1) ---
 // Error: 7-69 PDF/UA-1 error: invalid document structure, this element's PDF tag would be split up
 // Hint: 7-69 this is probably caused by paragraph grouping
