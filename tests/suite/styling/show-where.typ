@@ -69,21 +69,3 @@ Hello World!
   show line.where(start: (10pt, 12pt)): "Not Triggered"
   line()
 }
-
-
---- show-where-resolving-hyphenate paged ---
-// Test again that resolving is *not* taken into account.
-#set text(hyphenate: auto)
-
-#[
-  #show text.where(hyphenate: auto): underline
-  Auto
-]
-#[
-  #show text.where(hyphenate: true): underline
-  True
-]
-#[
-  #show text.where(hyphenate: false): underline
-  False
-]

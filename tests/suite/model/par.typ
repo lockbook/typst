@@ -467,12 +467,6 @@ Welcome \ here. Does this work well?
 #block(height: 0pt)[#""#metadata(false)<hi>]
 #context test(query(<hi>).first().value, false)
 
---- par-metadata-after-trimmed-space paged ---
-// Ensure that metadata doesn't prevent trailing spaces from being trimmed.
-#set par(justify: true, linebreaks: "simple")
-#set text(hyphenate: false)
-Lorem ipsum dolor #metadata(none) nonumy eirmod tempor.
-
 --- par-show-children paged ---
 // Variant 1: Prevent recursion by checking the children.
 #let p = counter("p")

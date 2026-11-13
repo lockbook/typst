@@ -943,12 +943,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "df3b46402a9d5adb4c86a0cf463f42e19994e3ee891101b1841f30a545cb49a9"
 
 [[package]]
-name = "hypher"
-version = "0.1.5"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3b24ad5637230df201ab1034d593f1d09bf7f2a9274f2e8897638078579f4265"
-
-[[package]]
 name = "iana-time-zone"
 version = "0.1.61"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3004,7 +2998,6 @@ dependencies = [
  "comemo",
  "ecow",
  "either",
- "hypher",
  "icu_properties",
  "icu_provider",
  "icu_provider_blob",
@@ -3025,7 +3018,6 @@ dependencies = [
  "unicode-bidi",
  "unicode-math-class",
  "unicode-script",
- "unicode-segmentation",
 ]
 
 [[package]]

@@ -15,16 +15,6 @@
 #set text(font: "Noto Serif CJK TC", lang: "zh", region: "TW")
 #outline()
 
---- text-lang-hyphenate paged ---
-// Ensure that setting the language does have effects.
-#set text(hyphenate: true)
-#grid(
-  columns: 2 * (20pt,),
-  gutter: 1fr,
-  text(lang: "en")["Eingabeaufforderung"],
-  text(lang: "de")["Eingabeaufforderung"],
-)
-
 --- text-lang-shaping paged ---
 // Test that the language passed to the shaper has an effect.
 #set text(font: "Ubuntu")

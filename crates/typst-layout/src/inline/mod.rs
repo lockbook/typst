@@ -232,8 +232,6 @@ fn configuration(
         align: shared.get(AlignElem::alignment).fix(dir).x,
         font_size,
         dir,
-        hyphenate: shared_get(children, shared, |s| s.get(TextElem::hyphenate))
-            .map(|uniform| uniform.unwrap_or(justify)),
         lang: shared_get(children, shared, |s| s.get(TextElem::lang)),
         fallback: shared.get(TextElem::fallback),
         cjk_latin_spacing: shared.get(TextElem::cjk_latin_spacing).is_auto(),
@@ -285,9 +283,6 @@ struct Config {
     font_size: Abs,
     /// The dominant direction.
     dir: Dir,
-    /// A uniform hyphenation setting (only `Some(_)` if it's the same for all
-    /// children, otherwise `None`).
-    hyphenate: Option<bool>,
     /// The text language (only `Some(_)` if it's the same for all
     /// children, otherwise `None`).
     lang: Option<Lang>,

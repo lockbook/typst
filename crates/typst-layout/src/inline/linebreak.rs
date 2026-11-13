@@ -1,19 +1,17 @@
 use std::ops::{Add, Sub};
 use std::sync::LazyLock;
 
-use az::SaturatingAs;
 use icu_properties::CodePointMapDataBorrowed;
 use icu_properties::props::LineBreak;
 use icu_provider_blob::BlobDataProvider;
 use icu_segmenter::options::LineBreakOptions;
 use icu_segmenter::{LineSegmenter, LineSegmenterBorrowed};
 use typst_library::engine::Engine;
-use typst_library::layout::{Abs, Em};
+use typst_library::layout::Abs;
 use typst_library::model::Linebreaks;
-use typst_library::text::{Lang, TextElem, is_default_ignorable};
+use typst_library::text::{Lang, is_default_ignorable};
 use typst_syntax::link_prefix;
 use typst_utils::Scalar;
-use unicode_segmentation::UnicodeSegmentation;
 
 use super::*;
 
@@ -68,9 +66,6 @@ pub enum Breakpoint {
     Normal,
     /// A mandatory breakpoint (after '\n' or at the end of the text).
     Mandatory,
-    /// An opportunity for hyphenating and how many chars are before/after it
-    /// in the word.
-    Hyphen(u8, u8),
 }
 
 impl Breakpoint {
@@ -116,15 +111,7 @@ impl Breakpoint {
                 });
                 Trim::uniform(start + trimmed.len())
             }
-
-            // Trim nothing.
-            Self::Hyphen(..) => Trim::uniform(start + line.len()),
         }
-    }
-
-    /// Whether this is a hyphen breakpoint.
-    pub fn is_hyphen(self) -> bool {
-        matches!(self, Self::Hyphen(..))
     }
 }
 
@@ -422,11 +409,6 @@ fn linebreak_optimized_approximate(
             // to line()'s behaviour, but good enough.
             let justify = p.config.justify && breakpoint != Breakpoint::Mandatory;
 
-            // We don't really know whether the line naturally ends with a dash
-            // here, so we can miss that case, but it's ok, since all of this
-            // just an estimate.
-            let consecutive_dash = pred.breakpoint.is_hyphen() && breakpoint.is_hyphen();
-
             // Estimate how much the line's spaces would need to be stretched to
             // make it the desired width. We trim at the end to not take into
             // account trailing spaces. This is, again, only an approximation of
@@ -435,12 +417,7 @@ fn linebreak_optimized_approximate(
             let line_ratio = raw_ratio(
                 p,
                 width,
-                estimates.widths.estimate(start..trimmed_end)
-                    + if breakpoint.is_hyphen() {
-                        metrics.approx_hyphen_width
-                    } else {
-                        Abs::zero()
-                    },
+                estimates.widths.estimate(start..trimmed_end),
                 estimates.stretchability.estimate(start..trimmed_end),
                 estimates.shrinkability.estimate(start..trimmed_end),
                 estimates.justifiables.estimate(start..trimmed_end),
@@ -453,7 +430,7 @@ fn linebreak_optimized_approximate(
                 line_ratio,
                 justify,
                 unbreakable,
-                consecutive_dash,
+                false,
                 true,
             );
 
@@ -656,17 +633,6 @@ fn raw_cost(
         penalty += metrics.runt_cost;
     }
 
-    // Penalize hyphenation.
-    if let Breakpoint::Hyphen(l, r) = breakpoint {
-        // We penalize hyphenations close to the edges of the word (< LIMIT
-        // chars) extra. For each step of distance from the limit, we add 15%
-        // to the cost.
-        const LIMIT: u8 = 5;
-        let steps = LIMIT.saturating_sub(l) + LIMIT.saturating_sub(r);
-        let extra = 0.15 * steps as f64;
-        penalty += (1.0 + extra) * metrics.hyph_cost;
-    }
-
     // Penalize two consecutive dashes extra (not necessarily hyphens).
     // Knuth-Plass does this separately after the squaring, with a higher cost,
     // but I couldn't find any explanation as to why.
@@ -699,7 +665,6 @@ fn breakpoints(p: &Preparation, mut f: impl FnMut(usize, Breakpoint)) {
         return;
     }
 
-    let hyphenate = p.config.hyphenate != Some(false);
     let segmenter = match p.config.lang {
         Some(Lang::CHINESE | Lang::JAPANESE) => CJ_SEGMENTER.as_borrowed(),
         _ => *SEGMENTER,
@@ -765,63 +730,9 @@ fn breakpoints(p: &Preparation, mut f: impl FnMut(usize, Breakpoint)) {
             }
         };
 
-        // Hyphenate between the last and current breakpoint.
-        if hyphenate && last < point {
-            for segment in text[last..point].split_word_bounds() {
-                if !segment.is_empty() && segment.chars().all(char::is_alphabetic) {
-                    hyphenations(p, last, segment, &mut f);
-                }
-                last += segment.len();
-            }
-        }
-
         // Call `f` for the UAX #14 break opportunity.
         f(point, breakpoint);
         last = point;
-    }
-}
-
-/// Generate breakpoints for hyphenations within a word.
-fn hyphenations(
-    p: &Preparation,
-    mut offset: usize,
-    word: &str,
-    mut f: impl FnMut(usize, Breakpoint),
-) {
-    let Some(lang) = lang_at(p, offset) else { return };
-    let count = word.chars().count();
-    let end = offset + word.len();
-
-    let mut chars = 0;
-    for syllable in hypher::hyphenate(word, lang) {
-        offset += syllable.len();
-        chars += syllable.chars().count();
-
-        // Don't hyphenate after the final syllable.
-        if offset == end {
-            continue;
-        }
-
-        // Filter out hyphenation opportunities where hyphenation was actually
-        // disabled.
-        if !hyphenate_at(p, offset) {
-            continue;
-        }
-
-        // Filter out forbidden hyphenation opportunities.
-        if matches!(
-            syllable.chars().next_back().map(|c| LINEBREAK_DATA.get(c)),
-            Some(LineBreak::Glue | LineBreak::WordJoiner | LineBreak::ZWJ)
-        ) {
-            continue;
-        }
-
-        // Determine the number of codepoints before and after the hyphenation.
-        let l = chars.saturating_as::<u8>();
-        let r = (count - chars).saturating_as::<u8>();
-
-        // Call `f` for the word-internal hyphenation opportunity.
-        f(offset, Breakpoint::Hyphen(l, r));
     }
 }
 
@@ -883,36 +794,10 @@ fn linebreak_link(link: &str, mut f: impl FnMut(usize)) {
     }
 }
 
-/// Whether hyphenation is enabled at the given offset.
-fn hyphenate_at(p: &Preparation, offset: usize) -> bool {
-    p.config.hyphenate.unwrap_or_else(|| {
-        let (_, item) = p.get(offset);
-        match item.text() {
-            Some(text) => {
-                text.styles.get(TextElem::hyphenate).unwrap_or(p.config.justify)
-            }
-            None => false,
-        }
-    })
-}
-
-/// The text language at the given offset.
-fn lang_at(p: &Preparation, offset: usize) -> Option<hypher::Lang> {
-    let lang = p.config.lang.or_else(|| {
-        let (_, item) = p.get(offset);
-        let styles = item.text()?.styles;
-        Some(styles.get(TextElem::lang))
-    })?;
-
-    let bytes = lang.as_str().as_bytes().try_into().ok()?;
-    hypher::Lang::from_iso(bytes)
-}
-
 /// Resolved metrics relevant for cost computation.
 struct CostMetrics {
     min_ratio: f64,
     min_approx_ratio: f64,
-    approx_hyphen_width: Abs,
     hyph_cost: Cost,
     runt_cost: Cost,
 }
@@ -924,8 +809,6 @@ impl CostMetrics {
             // When justifying, we may stretch spaces below their natural width.
             min_ratio: if p.config.justify { MIN_RATIO } else { 0.0 },
             min_approx_ratio: if p.config.justify { MIN_APPROX_RATIO } else { 0.0 },
-            // Approximate hyphen width for estimates.
-            approx_hyphen_width: Em::new(0.33).at(p.config.font_size),
             // Costs.
             hyph_cost: DEFAULT_HYPH_COST * p.config.costs.hyphenation().get(),
             runt_cost: DEFAULT_RUNT_COST * p.config.costs.runt().get(),

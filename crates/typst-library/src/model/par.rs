@@ -226,10 +226,6 @@ pub struct ParElem {
 
     /// Whether to justify text in its line.
     ///
-    /// Hyphenation will be enabled for justified paragraphs if the
-    /// @text.hyphenate[text function's `hyphenate` property] is set to `{auto}`
-    /// and the current language is known.
-    ///
     /// Note that the current @align.alignment[alignment] still has an effect on
     /// the placement of the last line except if it ends with a
     /// @linebreak.justify[justified line break].

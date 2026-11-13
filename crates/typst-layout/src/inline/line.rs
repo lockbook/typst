@@ -138,7 +138,7 @@ pub fn line<'a>(
         || (p.config.justify && breakpoint != Breakpoint::Mandatory);
 
     // Process dashes.
-    let dash = if breakpoint.is_hyphen() || full.ends_with(SHY) {
+    let dash = if full.ends_with(SHY) {
         Some(Dash::Soft)
     } else if full.ends_with(HYPHEN) {
         Some(Dash::Hard)

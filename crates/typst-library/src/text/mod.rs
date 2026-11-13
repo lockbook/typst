@@ -542,28 +542,6 @@ pub struct TextElem {
     #[ghost]
     pub dir: TextDir,
 
-    /// Whether to hyphenate text to improve line breaking. When `{auto}`, text
-    /// will be hyphenated if and only if justification is enabled.
-    ///
-    /// Setting the @text.lang[text language] ensures that the correct
-    /// hyphenation patterns are used.
-    ///
-    /// ```example
-    /// #set page(width: 200pt)
-    ///
-    /// #set par(justify: true)
-    /// This text illustrates how
-    /// enabling hyphenation can
-    /// improve justification.
-    ///
-    /// #set text(hyphenate: false)
-    /// This text illustrates how
-    /// enabling hyphenation can
-    /// improve justification.
-    /// ```
-    #[ghost]
-    pub hyphenate: Smart<bool>,
-
     /// The "cost" of various choices when laying out text. A higher cost means
     /// the layout engine will make the choice less often. Costs are specified
     /// as a ratio of the default cost, so `{50%}` will make text layout twice
@@ -595,7 +573,7 @@ pub struct TextElem {
     /// these modifications is planned for the future.)
     ///
     /// ```example
-    /// #set text(hyphenate: true, size: 11.4pt)
+    /// #set text(size: 11.4pt)
     /// #set par(justify: true)
     ///
     /// #lorem(10)
