@@ -607,12 +607,6 @@ fn path_completion(func: &Func, param: &ParamInfo) -> Option<&'static [&'static 
         (Some("image"), "source") => {
             &["png", "jpg", "jpeg", "gif", "svg", "svgz", "webp", "pdf"]
         }
-        (Some("csv"), "source") => &["csv"],
-        (Some("cbor"), "source") => &["cbor"],
-        (Some("json"), "source") => &["json"],
-        (Some("toml"), "source") => &["toml"],
-        (Some("xml"), "source") => &["xml"],
-        (Some("yaml"), "source") => &["yml", "yaml"],
         (Some("attach"), "path") if *func == typst::pdf::AttachElem::ELEM => &[],
         (None, "path") => &[],
         _ => return None,
@@ -1808,8 +1802,6 @@ mod tests {
         test(&world, ("content/a.typ", -2))
             .must_include([q!("../assets/tiger.jpg"), q!("../assets/rhino.png")])
             .must_exclude([q!("../data/example.csv"), q!("b.typ")]);
-
-        test(&world, ("content/b.typ", -3)).must_include([q!("../data/example.csv")]);
 
         test(&world, ("content/c.typ", -2))
             .must_include([q!("../main.typ"), q!("a.typ"), q!("b.typ")])

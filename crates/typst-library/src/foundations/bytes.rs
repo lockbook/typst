@@ -25,9 +25,6 @@ use crate::foundations::{Array, Reflect, Repr, Str, Value, cast, func, scope, ty
 /// - bytes to a string with the @str constructor, with UTF-8 encoding
 /// - bytes to an array of integers with the @array constructor
 ///
-/// When @read[reading] data from a file, you can decide whether to load it as a
-/// string or as raw bytes.
-///
 /// ```example
 /// #bytes((123, 160, 22, 0)) \
 /// #bytes("Hello 😃")

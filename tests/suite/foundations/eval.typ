@@ -43,10 +43,6 @@ Blue #move(dy: -0.15em)[🌊]
 _Tiger!_
 ```
 
---- eval-path-resolve-relative eval ---
-// Test relative path.
-#test(eval(`"HELLO" in read("./eval.typ")`.text), true)
-
 --- issue-2055-math-eval paged ---
 // Evaluating a math expr should renders the same as an equation
 #eval(mode: "math", "f(a) = cases(a + b\, space space x >= 3,a + b\, space space x = 5)")

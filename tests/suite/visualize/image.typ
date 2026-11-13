@@ -305,18 +305,6 @@ A #box(image("/assets/images/tiger.jpg", height: 1cm, width: 80%)) B
 // Error: 8-150 failed to parse SVG (missing root node at 1:1)
 #image(bytes(`<sv height="140" width="500"><ellipse cx="200" cy="80" rx="100" ry="50" style="fill:yellow;stroke:purple;stroke-width:2" /></sv>`.text), format: "svg")
 
---- image-decode-detect-format paged ---
-// Test format auto detect
-#image(read("/assets/images/tiger.jpg", encoding: none), width: 80%)
-
---- image-decode-specify-format paged ---
-// Test format manual
-#image(read("/assets/images/tiger.jpg", encoding: none), format: "jpg", width: 80%)
-
---- image-decode-specify-wrong-format paged ---
-// Error: 2-84 failed to decode image (Format error decoding Png: Invalid PNG signature.)
-#image(read("/assets/images/tiger.jpg", encoding: none), format: "png", width: 80%)
-
 --- image-pixmap-empty paged ---
 // Error: 1:2-8:2 zero-sized images are not allowed
 #image(
@@ -362,13 +350,6 @@ A #box(image("/assets/images/tiger.jpg", height: 1cm, width: 80%)) B
   ),
 )
 
---- image-png-but-pixmap-format eval ---
-#image(
-  read("/assets/images/tiger.jpg", encoding: none),
-  // Error: 11-18 expected "png", "jpg", "gif", "webp", dictionary, "svg", or auto
-  format: "rgba8",
-)
-
 --- issue-measure-image paged empty ---
 // Test that image measurement doesn't turn `inf / some-value` into 0pt.
 #context {
@@ -383,26 +364,6 @@ A #box(image("/assets/images/tiger.jpg", height: 1cm, width: 80%)) B
 --- issue-3733-dpi-svg paged ---
 #set page(width: 200pt, height: 200pt, margin: 0pt)
 #image("/assets/images/relative.svg")
-
---- image-exif-rotation paged ---
-#let rotations = range(1, 9)
-#let with-rotation(path, offset, v) = {
-  let data = read(path, encoding: none)
-  let modified = data.slice(0, offset) + bytes((v,)) + data.slice(offset + 1)
-  image(modified, width: 10pt)
-}
-
-#set page(width: auto)
-#table(
-  columns: 1 + rotations.len(),
-  table.header(
-    [], ..rotations.map(v => raw(str(v), lang: "typc")),
-  ),
-  `PNG`, ..rotations.map(v => with-rotation("/assets/images/f2t.png", 0x85, v)),
-  // JPEG has special handing in PDF export (no recoding, so instead we use a
-  // transform to apply the orientation), so it's worth testing that separately.
-  `JPEG`, ..rotations.map(v => with-rotation("/assets/images/f2t.jpg", 0x31, v)),
-)
 
 --- issue-6869-image-zero-sized paged ---
 // Primarily to ensure that it does not crash in PDF export.

@@ -290,7 +290,6 @@ pub enum Category {
     Foundations,
     Introspection,
     Layout,
-    DataLoading,
     Math,
     Model,
     Symbols,
@@ -310,7 +309,6 @@ impl Category {
             Self::Foundations => "foundations",
             Self::Introspection => "introspection",
             Self::Layout => "layout",
-            Self::DataLoading => "data-loading",
             Self::Math => "math",
             Self::Model => "model",
             Self::Symbols => "symbols",
@@ -340,7 +338,6 @@ fn global(
     self::layout::define(&mut global);
     self::visualize::define(&mut global);
     self::introspection::define(&mut global);
-    self::loading::define(&mut global);
     self::symbols::define(&mut global);
 
     global.define("math", math);

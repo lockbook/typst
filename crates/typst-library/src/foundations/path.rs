@@ -120,8 +120,8 @@ use crate::foundations::{Repr, Str, cast, func, scope, ty};
 /// section @path:path-type["The path type"] above.
 ///
 /// Alternatively, you can perform the path operation in your code and pass the
-/// result to the package. This could, for example, be the result of a @read
-/// call or a complete image (e.g. as a named parameter
+/// result to the package. This could, for example, be a complete image (e.g. as
+/// a named parameter
 /// `{logo: image("mylogo.svg")}`). Note that if you pass an image to a package
 /// like this, you can still customize the image's appearance with a set rule
 /// within the package.

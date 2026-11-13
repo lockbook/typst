@@ -132,7 +132,6 @@ da9d527d6c166f08ac421dd9ab6a4fc6 counter-page-footer-only-update
 00e7fc93349da629e01950dc5f25863a counter-page-header-before-set-page
 e312e11eafe289752340a0ddb3648e3e counter-page-header-only-update
 21a9e6695f6b4684bf2287abc1ee530f counter-rtl
-596cb8598ec2185f0d2548db295a3357 csv
 82df6b6e7bc2767cc788287a25c69446 curve-close-intersection
 bcd07ca2ad26b5f5f043ece4a3df2e36 curve-close-smooth
 2f3de8cbecfa2eaf917f809f938e9671 curve-close-straight
@@ -592,10 +591,7 @@ b68fe0d021f382a465a2b8fa087a6f06 hyphenate-pt-repeat-hyphen-hyphenate-true-with-
 69d174a3649c1d0cd586f6baab1074c3 if-condition-complex
 4474ed26cbaa657e2986aa03d953c047 if-markup
 0adbf8e07d8e100abf161a7060e73473 image-baseline-with-box
-749a46c35d9a499fd6b0ea919d97259e image-decode-detect-format
-5f58a768d82a5538ef96cdab90c7c5df image-decode-specify-format
 19baf7ccd2b888f52e1c0066d9e48647 image-decode-svg
-113f0521df128bc16542c94a3d574a1c image-exif-rotation
 8bceb5bb4997875a52bcad2ab5a28147 image-fit
 364849ef231ce5da69cd5c34669fae09 image-jpg
 e2c28abda075f98a1be7605f762b4291 image-jump-to-next-page
@@ -680,7 +676,6 @@ e1d94089d0c4eaafccf82802e6a5986c issue-3191-raw-normal-paragraphs-still-shrink
 e967f9eb5b086d5b5b0a86cf8bf3d97a issue-3232-dict-empty
 1da78c38a996283ee57d91e1fd7397f2 issue-3264-rect-negative-dimensions
 a5ef7d91bcfb2200b5ddc97501c535e6 issue-3355-metadata-weak-spacing
-3db1088bc780feac9f4fb87078281343 issue-3363-json-large-number
 afc89abe9dd2baf1c2e07d7492507f6d issue-3586-figure-caption-separator
 ac3a856d74fa3d1b606ee3b5f2868758 issue-3624-spacing-behaviour
 507ac8a0cc07d3b945877448cd578c42 issue-3641-float-loop

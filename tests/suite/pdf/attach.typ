@@ -10,16 +10,6 @@
   description: "Information about a secret project",
 )
 
---- pdf-attach-bytes paged empty ---
-#pdf.attach("hello.txt", read("/assets/text/hello.txt", encoding: none))
-#pdf.attach(
-  "a_file_name.txt",
-  read("/assets/text/hello.txt", encoding: none),
-  relationship: "supplement",
-  mime-type: "text/plain",
-  description: "A description",
-)
-
 --- pdf-attach-zero-bytes paged empty ---
 #pdf.attach("file", bytes(()))
 

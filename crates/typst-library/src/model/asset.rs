@@ -10,45 +10,6 @@ use crate::introspection::Locatable;
 /// @bytes[raw byte data]. Unlike @document[documents], assets will be emitted
 /// as-is without undergoing compilation.
 ///
-/// The `asset` function can be combined with @read to copy a file from the
-/// project into the output bundle. The first argument to `asset` defines the
-/// output path for the asset in the bundle, while the path passed to `read`
-/// defines where in the project to read the data from.
-///
-/// ```typ
-/// // Copy the file `styles.css` into the bundle.
-/// #asset("styles.css", read("styles.css"))
-/// ```
-///
-/// That said, `asset` is not tied to `read`. You can also generate bytes
-/// directly or use a function like @json.encode to emit serialized data.
-///
-/// ```typ
-/// // Emits a JSON file with the number
-/// // of headings in the document.
-/// #context {
-///   let headings = query(heading)
-///   let meta = (
-///     count: headings.len(),
-///   )
-///   asset("meta.json", json.encode(meta))
-/// }
-///
-/// #document("doc.pdf")[
-///   = Introduction
-///   = Conclusion
-/// ]
-/// ```
-///
-/// This would emit a `meta.json` file with the following contents into the
-/// resulting bundle:
-///
-/// ```json
-/// {
-///   "count": 2
-/// }
-/// ```
-///
 /// This function may only be used in the @reference:bundle[bundle] target.
 #[elem(Locatable)]
 pub struct AssetElem {
